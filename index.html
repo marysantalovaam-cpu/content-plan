@@ -1,0 +1,1852 @@
+<!doctype html>
+<html lang="ru" data-storage="firebase">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light"><title>Редакция · Алёмаркетинг</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,600;0,700;1,400;1,700&amp;display=swap">
+<style>:root{--paper:#f6f7f3;--white:#fff;--ink:#202927;--muted:#586660;--border:#dce3dd;--green:#234b3c;--green-2:#e4eee6;--red:#a12d49;--round:14px;font:16px/1.5 "Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:var(--paper)}
+*{box-sizing:border-box}
+body{margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible{outline:2px solid #568577;outline-offset:2px}
+button:disabled{cursor:default;opacity:.5}
+a{color:var(--green)}
+h1,h2,h3,p{margin:0}
+h1{font-size:clamp(2rem,3.3vw,3.4rem);font-weight:730;line-height:1.05;letter-spacing:-.065em}
+h2{font-size:1.35rem;line-height:1.2;letter-spacing:-.03em}
+h3{font-size:1.04rem}
+small,.subtle{color:var(--muted);font-size:.85rem}
+.app{display:grid;grid-template-columns:220px minmax(0,1fr);min-height:100vh}
+.sidebar{position:sticky;top:0;height:100vh;padding:27px 14px 16px;background:#fcfcfa;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:36px}
+.brand{display:flex;align-items:center;gap:11px;padding:0 9px;line-height:1.25}
+.brand strong,.brand small,.sync strong,.sync small{display:block}
+.brand strong{font-size:1.16rem;letter-spacing:-.025em}
+.brand-mark{display:grid;place-items:center;background:var(--green);color:white;width:40px;height:40px;border-radius:12px;font-size:25px;flex:none}
+nav{display:grid;gap:4px}
+nav p{margin:17px 12px 5px;color:var(--muted);font-size:.79rem;font-weight:650}
+.nav{display:flex;align-items:center;gap:10px;text-align:left;background:none;border:0;border-radius:9px;padding:9px 11px;color:var(--muted);white-space:nowrap;font-size:.91rem;font-weight:590}
+.nav:hover,.nav[aria-current="page"]{background:var(--green-2);color:var(--green)}
+.nav[aria-current="page"]{font-weight:720}
+.nav-icon{display:inline-grid;place-items:center;min-width:20px;font-size:1.15rem;line-height:1}
+.sync{margin-top:auto;padding:12px 10px;display:flex;align-items:baseline;gap:8px;border-top:1px solid var(--border)}
+.sync>span{width:7px;height:7px;background:#71a98a;border-radius:50%;flex:none}
+.sync strong{font-size:.8rem}
+main{min-width:0;padding:32px clamp(16px,3vw,45px) 60px}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;margin-bottom:23px}
+.top p{margin-top:10px}
+.btn{border:1px solid var(--border);border-radius:9px;background:var(--white);font-size:.9rem;font-weight:640;padding:8px 12px;line-height:1.35;white-space:nowrap}
+.btn:hover{background:#edf2ee}
+.primary{background:var(--green);border-color:var(--green);color:white}
+.primary:hover{background:#30634f}
+.danger{color:var(--red)}
+.icon{padding:5px 9px;font-size:1rem}
+.toolbar,.filters,.actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.toolbar{justify-content:space-between;margin:0 0 12px}
+.controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.controls h2{min-width:190px;text-transform:capitalize}
+input,select,textarea{border:1px solid var(--border);border-radius:8px;background:var(--white);padding:7px 9px;min-width:0;width:100%;font-size:.92rem}
+textarea{min-height:95px;resize:vertical}
+select[multiple]{min-height:102px}
+input[type=checkbox]{width:auto}
+.filters input,.filters select{width:auto;max-width:100%}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px}
+.metric{padding:13px 15px;border:1px solid var(--border);border-radius:var(--round);background:#fbfcf9;display:flex;justify-content:space-between;align-items:center;gap:7px;font-size:.9rem;color:var(--muted)}
+.metric strong{color:var(--ink);font-size:1.4rem;line-height:1}
+.metric.warn strong{color:var(--red)}
+.panel,.cal-scroll,.table-wrap{border:1px solid var(--border);border-radius:var(--round);background:var(--white)}
+.cal-scroll,.table-wrap{overflow:auto}
+.calendar{min-width:760px;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:1px;background:var(--border)}
+.weekday{padding:8px;color:var(--muted);font-size:.88rem;font-weight:650;background:#f8faf7}
+.day{min-height:110px;min-width:0;padding:5px;background:#fff;display:flex;flex-direction:column;gap:4px}
+.day.outside{background:#f4f6f2}
+.day.today{background:#eef5ec}
+.day.drag-over{outline:2px solid #527f6f;outline-offset:-2px}
+.day-add{border:0;background:transparent;border-radius:6px;text-align:left;padding:2px 6px;font-size:.9rem;font-weight:700;color:var(--muted);display:flex;justify-content:space-between;align-items:center}
+.day-add:hover{background:var(--green-2);color:var(--green)}
+.day.today .day-add{color:var(--green)}
+.event,.hint{display:block;width:100%;text-align:left;border:0;border-radius:7px;padding:5px 6px;min-width:0;line-height:1.27;overflow-wrap:anywhere}
+.event{background:var(--tint,#e8f0e9);color:#253832;border-left:3px solid var(--accent,#719583);font-size:.82rem;font-weight:675}
+.event[draggable=true]{cursor:grab}
+.event small{display:block;font-size:.74rem;margin-bottom:2px}
+.event:hover,.hint:hover{filter:brightness(.96)}
+.event.missed{opacity:.72}.event.late{border-left-color:#b84961}
+.hint{background:#f3f5f2;border:1px dashed #bac8bf;font-size:.77rem;color:#445b50}
+.hints{display:flex;gap:7px;margin:0 0 10px;flex-wrap:wrap}
+.hints .hint{width:auto;padding:6px 9px}
+.section{margin-top:25px}
+.section>h2,.panel>h2{margin-bottom:10px}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr));gap:10px}
+.card,.panel{padding:15px}
+.card{display:grid;align-content:start;gap:6px}
+.card h3{overflow-wrap:anywhere}
+.card p{white-space:pre-wrap;overflow-wrap:anywhere}
+.card .btn{justify-self:start}
+.empty{padding:15px;color:var(--muted);font-size:.93rem}
+table{border-collapse:separate;border-spacing:0;width:100%;text-align:left;font-size:.91rem}
+th,td{border-bottom:1px solid var(--border);padding:8px 10px;vertical-align:middle}
+thead th{background:#f5f8f4;white-space:nowrap;color:var(--muted);font-weight:650}
+tr:last-child td{border-bottom:0}
+td input,td select{min-width:135px;background:transparent}
+td:first-child,th:first-child{position:sticky;left:0;background:#fff;z-index:1}
+th:first-child{background:#f5f8f4}
+td .cell-title{min-width:255px}
+.cell-text{max-width:320px;min-width:190px}
+.cell-text .btn{display:block;width:100%;text-align:left;text-overflow:ellipsis;overflow:hidden}
+.badge{display:inline-block;border-radius:6px;padding:2px 6px;background:var(--green-2);font-size:.83rem;white-space:nowrap}
+.late-text{color:var(--red)}
+.label{display:grid;gap:4px;font-size:.88rem;font-weight:640;min-width:0}
+form.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.wide{grid-column:1/-1}
+.actions{margin-top:8px}
+dialog{width:min(700px,calc(100% - 24px));max-height:90dvh;overflow:auto;border:1px solid var(--border);border-radius:18px;padding:0;color:var(--ink)}
+dialog::backdrop{background:#182e28aa}
+.dialog-head{position:sticky;top:0;background:#fff;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:10px;border-bottom:1px solid var(--border);padding:15px 18px}
+.dialog-body{padding:17px 18px}
+.dialog-body>.panel,.dialog-body>.actions{margin-top:10px}
+.list{display:grid;gap:8px}
+.line{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--border)}
+.line>div{min-width:0;overflow-wrap:anywhere}
+.line small{display:block}
+.line:last-child{border-bottom:0}
+.settings{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,315px),1fr));gap:16px}
+.settings .panel{min-width:0}
+.toast{position:fixed;bottom:18px;right:18px;z-index:10;background:var(--green);color:white;border-radius:10px;padding:10px 14px;max-width:calc(100% - 36px)}
+.history{white-space:pre-wrap;max-height:230px;overflow:auto}
+.pagination{margin:12px 0;justify-content:flex-end}
+@media(max-width:900px){.app{grid-template-columns:166px minmax(0,1fr)}.sidebar{padding-left:8px;padding-right:8px}.nav{padding-left:6px}}
+@media(max-width:670px){.app{display:block}.sidebar{position:static;height:auto;padding:12px;gap:12px;border-right:0;border-bottom:1px solid var(--border)}nav{display:flex;overflow:auto}nav p{display:none}.sync{display:flex;padding:4px 10px}main{padding:18px 12px 35px}.top{margin-bottom:16px}.metric{display:grid;padding:8px;font-size:.81rem}.top p{font-size:.85rem}}
+@media(max-width:430px){form.grid{grid-template-columns:1fr}.top .btn{white-space:normal}.controls h2{min-width:130px;font-size:1.05rem}}
+.weekly{min-width:1070px}
+.weekly td{vertical-align:top;min-width:115px;white-space:pre-wrap}
+.weekly td:first-child{min-width:245px;max-width:270px}
+.weekly td small{display:block;margin-top:5px}
+.weekly td .btn{margin-top:8px}
+.controls select{width:auto}
+#dialog .toast{position:fixed}
+.dialog-message{margin-bottom:12px;padding:8px 10px;border-radius:8px;background:var(--green-2)}
+/* The production sheets */
+.sheet-top,.sheet-entry,.sheet-root{max-width:100%;min-width:0}
+.sheet-top{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.sheet-filters input{width:min(235px,100%)}
+.sheet-actions{margin:0}
+.sheet-actions select{width:auto;max-width:145px}
+.sheet-actions [aria-pressed=true]{background:#dce9e1;border-color:#8ba999}
+.sheet-entry{display:grid;grid-template-columns:minmax(53px,auto) minmax(0,1fr) auto;align-items:center;gap:8px;margin:0 0 7px}
+.sheet-address{padding:7px 9px;border:1px solid var(--border);border-radius:7px;background:#eef3ee;color:#335b4a;font-size:.82rem;font-variant-numeric:tabular-nums;white-space:nowrap;text-align:center}
+.sheet-status{white-space:nowrap}
+.sheet-scroll{position:relative;isolation:isolate;max-height:min(66dvh,720px);min-height:200px;overscroll-behavior:contain}
+.sheet-grid{--rowhead:48px;border-collapse:separate;table-layout:fixed;width:max-content;font-size:.89rem}
+.sheet-grid col:first-child{width:var(--rowhead)}
+.sheet-grid thead{position:sticky;top:0;z-index:5}
+.sheet-grid th,.sheet-grid td{height:35px;padding:4px 8px;border:none;border-right:1px solid #e0e7e0;border-bottom:1px solid #e0e7e0}
+.sheet-grid thead th{position:relative;height:54px;vertical-align:middle;padding:0;background:#edf3ed}
+.sheet-grid .sheet-corner,.sheet-grid .sheet-number{position:sticky;left:0;z-index:3;min-width:var(--rowhead);max-width:var(--rowhead);text-align:center;background:#edf3ed;color:#5c7067;font-weight:500;font-variant-numeric:tabular-nums}
+.sheet-grid .sheet-title-col{position:sticky;left:var(--rowhead);z-index:2}
+.sheet-grid thead .sheet-title-col,.sheet-grid thead .sheet-corner{z-index:4}
+.sheet-grid td{position:relative;background:var(--cell-fill,#fff);color:#283931;outline:0}
+.sheet-grid td[aria-readonly=true]{background:#f2f5f2;color:#526159}
+.sheet-grid td.sheet-selected{background:var(--cell-fill,#eaf4ed);box-shadow:inset 0 0 0 1px #a4c7b2}
+.sheet-grid td.sheet-active{box-shadow:inset 0 0 0 2px #42785e}
+.sheet-grid td.sheet-title-col.sheet-active{z-index:3}
+.sheet-grid td.sheet-editing{padding:0}
+.sheet-grid td.sheet-editing :is(input,select,textarea){min-width:0;max-width:100%;border:0;border-radius:0;background:#fff;padding:5px;height:34px;font-size:.89rem}
+.sheet-grid td.sheet-editing textarea{display:block;min-height:70px;resize:vertical}
+.sheet-grid .formatted-bold{font-weight:750}
+.sheet-header-btn{display:flex;width:100%;min-width:0;align-items:center;justify-content:center;flex-direction:column;gap:3px;background:transparent;border:none;border-radius:0;padding:3px 11px 3px 6px;color:#33574a}
+.sheet-header-btn small{color:#527064;font-size:.71rem;line-height:1}
+.sheet-header-btn span{display:block;width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sheet-resize{position:absolute;right:-3px;top:0;bottom:0;width:10px;padding:0;border:0;background:transparent;z-index:1;cursor:col-resize;touch-action:none}
+.sheet-resize:hover,.sheet-resize:focus-visible{background:#87b9a0aa}
+.sheet-value{display:block;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+.sheet-grid tr:last-child td,.sheet-grid tr:last-child th{border-bottom:1px solid #e0e7e0}
+.controls{min-width:0}
+.controls h2{min-width:0}
+.toolbar .filters{min-width:0}
+.toolbar .filters>*{min-width:0}
+.line{align-items:flex-start;flex-wrap:wrap}
+.line>.btn{margin-left:auto}
+.card,.panel{overflow-wrap:anywhere}
+.dialog-head{align-items:flex-start}
+.dialog-head h2{min-width:0;overflow-wrap:anywhere}
+@media(max-width:670px){
+  .sidebar nav{scrollbar-width:thin;padding-bottom:4px}
+  .filters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%}
+  .filters input,.filters select,.sheet-filters input{width:100%;max-width:100%}
+  .filters input[type=search]{grid-column:1/-1}
+  .sheet-entry{grid-template-columns:minmax(50px,auto) minmax(0,1fr)}
+  .sheet-status{grid-column:1/-1;white-space:normal}
+  .sheet-scroll{max-height:64dvh}
+  .sheet-grid .sheet-title-col{position:relative;left:auto;z-index:auto}
+  .sheet-grid thead .sheet-title-col{z-index:auto}
+  .metrics{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .metric{overflow-wrap:anywhere}
+}
+/* Keep calendar cards inside their own column, including long unbroken strings. */
+.event.btn,.hint.btn{box-sizing:border-box;min-inline-size:0;max-inline-size:100%;white-space:normal;word-break:normal;overflow-wrap:anywhere}
+.calendar .day{min-inline-size:0;align-items:stretch}
+.event>small,.event-title{display:block;min-inline-size:0;max-inline-size:100%;white-space:pre-line;overflow-wrap:anywhere;word-break:normal}
+.event-title{line-height:1.35}
+.cal-scroll .day .event,.cal-scroll .day .hint{flex:0 0 auto;height:auto}
+.sheet-color{display:inline-flex;gap:6px;align-items:center;padding:3px 6px;border:1px solid var(--border);border-radius:8px;background:white;font-size:.83rem;white-space:nowrap}
+.sheet-color input{width:28px;height:24px;padding:2px;border:0;cursor:pointer}
+.sheet-italic{font-style:italic}
+.sheet-grid td.sheet-list-cell{padding-inline-end:27px}
+.sheet-dropdown-toggle.btn{position:absolute;right:3px;top:50%;transform:translateY(-50%);padding:1px 5px;line-height:1.25;border-color:#cbd7d0;background:#f5f8f5;border-radius:5px}
+.sheet-dropdown{position:fixed;inset:auto;margin:0;width:min(330px,calc(100vw - 20px));max-height:min(300px,70dvh);padding:10px;background:white;color:var(--ink);border:1px solid var(--border);border-radius:9px;overflow:auto;box-shadow:0 8px 30px #1b382734}
+.sheet-dropdown-options{display:flex;flex-direction:column;align-items:stretch;gap:3px;margin-top:7px}
+.sheet-option{display:flex;align-items:center;gap:9px;padding:5px 8px;white-space:normal;text-align:left;overflow-wrap:anywhere}
+.sheet-option input{flex:none}
+.sheet-option[aria-current=true]{background:#e4eee6}
+.sheet-grid.source-sheet thead th{background:var(--cell-fill,#edf3ed)}
+.sheet-grid.source-sheet .sheet-header-btn{font:inherit;color:inherit;text-align:inherit}
+.sheet-grid.source-sheet .sheet-header-btn span{white-space:normal;overflow-wrap:anywhere}
+.sheet-grid .sheet-wrap-value .sheet-value{white-space:pre-wrap;overflow-wrap:anywhere;text-overflow:clip}
+.sheet-grid .sheet-clip-value .sheet-value{text-overflow:clip}
+.sheet-grid .sheet-wrap-value{height:auto;min-height:35px}
+.sheet-grid.source-sheet td.sheet-selected{box-shadow:inset 0 0 0 1px #76a58a}
+.sheet-grid.source-sheet td.sheet-active{box-shadow:inset 0 0 0 2px #3d755a}
+.source-sheet .sheet-guidance th{height:22px;vertical-align:middle;padding:2px 5px}
+.source-sheet .sheet-guidance .sheet-value{max-height:3.5em}
+.source-sheet tbody td,.source-sheet tbody th{height:21px;padding-block:2px}
+.source-sheet tbody .sheet-wrap-value{height:auto}
+
+.team-user{display:flex;flex-wrap:wrap;align-items:center;gap:6px;padding:0 8px;overflow-wrap:anywhere}.team-user small{display:block;width:100%}#main>.card>h1{margin-bottom:10px}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-mark" aria-hidden="true">✳</span><div><strong id="brand">Редакция</strong><small>Алёмаркетинг</small></div></div>
+    <nav id="nav" aria-label="Разделы"></nav>
+    <div id="team-user" class="team-user"></div>
+    <div class="sync" role="status"><span aria-hidden="true"></span><div><strong id="sync">Загрузка…</strong><small id="sync-details"></small></div></div>
+  </aside>
+  <main id="main" tabindex="-1"></main>
+</div>
+<dialog id="dialog"></dialog>
+<div class="toast" id="toast" role="status" hidden></div>
+<script src="./firebase-config.js"></script>
+<script type="module">
+const KIND = {
+  social: {label:'Соцсети', icon:'◫', stage:'Стадия'},
+  article: {label:'Статьи', icon:'▤', stage:'Что нужно сделать?'},
+  case: {label:'Кейсы', icon:'▣', stage:'Статус'},
+};
+const OUTCOMES = {planned:'Запланировано', live:'Опубликовано', missed:'Не вышло'};
+const BASE_COLUMNS = {
+  title:'Рабочее название', format:'Тип публикации', channels:'Площадки', stage:'Стадия', owner:'Ответственный',
+  deadline:'Дедлайн', next:'Ближайшая публикация', result:'Итоги публикаций', note:'Комментарий', description:'Подробнее',
+  source:'Ссылка на исходник', expert:'Эксперт', announcement:'Анонс статьи в ТГ', tags:'Теги', sourceInfo:'Где берём информацию?',
+  publishedUrl:'Ссылка на сайте', extras:'Дополнительная информация', start:'Старт работ', finish:'Финиш подготовки',
+};
+const ORDER = {
+  social:['title','format','channels','stage','owner','deadline','next','result','description','source','note','start','finish'],
+  article:['title','format','channels','stage','owner','deadline','next','result','description','source','expert','note','announcement'],
+  case:['title','format','channels','stage','owner','deadline','next','result','tags','sourceInfo','note','publishedUrl','source','extras'],
+};
+const MULTILINE = ['description','sourceInfo','note','announcement','extras','recommendation','body'];
+const DAYS = ['Понедельник','Вторник','Среда','Четверг','Пятница','Суббота','Воскресенье'];
+const TINTS = [['#dcebe9','#6c988b'],['#e6e6fa','#8176b6'],['#f5e7da','#b18461'],['#f5e2e8','#b77387'],['#e9efd9','#88a064'],['#e2ebf7','#7290b5']];
+const id = () => globalThis.crypto?.randomUUID?.() ?? Array.from(crypto.getRandomValues(new Uint8Array(16)),n=>n.toString(16).padStart(2,'0')).join('');
+const dayFormat = new Intl.DateTimeFormat('sv-SE',{timeZone:'Europe/Minsk'});
+const TODAY = () => dayFormat.format(new Date());
+const isoDate = d => /^\d{4}-\d{2}-\d{2}$/.test(d || '') && !Number.isNaN(Date.parse(d)) && new Date(d).toISOString().slice(0,10) === d;
+function parseDate(value) {
+  const match = String(value || '').trim().match(/^(\d{1,2})\.(\d{1,2})\.(\d{4})(?=\s|[-–—]|$)/);
+  const candidate = match ? [match[3],match[2].padStart(2,'0'),match[1].padStart(2,'0')].join('-') : String(value || '').trim();
+  return isoDate(candidate) ? candidate : '';
+}
+function plus(date, count) {
+  const value = new Date(date+'T12:00:00Z');
+  value.setUTCDate(value.getUTCDate()+count);
+  return value.toISOString().slice(0,10);
+}
+const formatDate = d => isoDate(d) ? d.split('-').reverse().join('.') : '';
+const weekday = d => new Date(d+'T12:00:00Z').getUTCDay() || 7;
+const norm = s => String(s ?? '').trim().toLowerCase().replace(/ё/g,'е').replace(/\s+/g,' ');
+const unique = values => [...new Set(values.filter(Boolean))];
+const blank = () => ({
+  version:2,materials:[],publications:[],topics:[],
+  settings:{title:'Редакция',channels:[],formats:[],owners:[],rules:[],countPlanned:true,calendarDeadlines:false,
+    outcomeLabels:{...OUTCOMES},kinds:Object.fromEntries(Object.entries(KIND).map(([key,value])=>[key,{label:value.label,
+      stages:[], excluded:[],custom:[],hidden:[],order:[...ORDER[key]],labels:{stage:value.stage}}]))},
+});
+function validate(raw) {
+  if (!raw || raw.version!==2 || !['materials','publications','topics'].every(k=>Array.isArray(raw[k]))) {
+    throw new Error('Файл должен быть резервной копией приложения версии 2.');
+  }
+  const settings=raw.settings;
+  if (!settings || !['channels','formats','owners','rules'].every(k=>Array.isArray(settings[k])) ||
+      !Object.keys(KIND).every(k=>['stages','excluded','custom','hidden','order'].every(a=>Array.isArray(settings.kinds?.[k]?.[a])))) {
+    throw new Error('В копии отсутствуют настройки рабочего пространства.');
+  }
+  for (const list of [raw.materials,raw.publications,raw.topics,settings.rules]) {
+    if (list.some(row=>!row || typeof row.id!=='string' || !row.id) || new Set(list.map(row=>row.id)).size!==list.length) throw new Error('В копии есть неверные или повторяющиеся ID.');
+  }
+  const materialIds=new Set(raw.materials.map(row=>row.id));
+  const topicIds=new Set(raw.topics.map(row=>row.id));
+  if(raw.materials.some(row=>!Object.hasOwn(KIND,row.kind) || typeof row.title!=='string' || !row.title.trim() ||
+      !Array.isArray(row.channels) || !Array.isArray(row.formats) || (row.topicId&&!topicIds.has(row.topicId))) ||
+     raw.publications.some(row=>!materialIds.has(row.materialId) || !Object.hasOwn(OUTCOMES,row.status) ||
+      (row.date&&!isoDate(row.date)) || (row.actual&&!isoDate(row.actual)))) throw new Error('В копии есть некорректные карточки, даты или связи.');
+  return raw;
+}
+function eventDate(pub) {return pub.status==='live' && pub.actual ? pub.actual : pub.date;}
+function isLate(pub,now=TODAY()) {return pub.status==='planned' && pub.date && pub.date<now;}
+function bankMaterials(db) {
+  const placed=new Set(db.publications.filter(p=>p.date || p.actual || p.status!=='planned').map(p=>p.materialId));
+  return db.materials.filter(m=>!placed.has(m.id) && !db.settings.kinds[m.kind].excluded.some(s=>norm(s)===norm(m.stage)))
+    .sort((a,b)=>Object.keys(KIND).indexOf(a.kind)-Object.keys(KIND).indexOf(b.kind));
+}
+function shortage(publications, rule, date, countPlanned) {
+  if(rule.period==='day' && weekday(date)!==Number(rule.day)) return 0;
+  const used=publications.filter(p=>{
+    if(p.channel!==rule.channel || (rule.format && p.format!==rule.format) ||
+       p.status==='missed' || (!countPlanned && p.status!=='live')) return false;
+    const day=eventDate(p);
+    return day && (rule.period==='month' ? day.slice(0,7)===date.slice(0,7) : day===date);
+  }).length;
+  return Math.max(0,Number(rule.min)-used);
+}
+function safeHref(value) {
+  try { const url=new URL(value); return ['https:','http:'].includes(url.protocol) ? url.href : ''; }
+  catch {return '';}
+}
+
+const formatAliases={'Пост-карусель':'Карусель','Пост-лонгрид':'Лонгрид','Рилс от АЛЁНЫ':'Рилс Алёны'};
+const sourceTextHash=txt=>{
+  let result=0;
+  for(let i=0;i<txt.length;i++)result=(Math.imul(31,result)+txt.charCodeAt(i))|0;
+  return result;
+};
+const sourceSheet=kind=>db.settings.sourceDesign?.tables?.[kind];
+function sourceEntryRow(sheet,m) {
+  if(!sheet||!m?.sourceRow)return undefined;
+  const row=String(m.sourceRow).match(/#gid=(\d+)&range=A(\d+)$/);
+  return row&&Number(row[1])===sheet.gid?row[2]:undefined;
+}
+function sourceEntry(sheet,m) {
+  return sheet?.row[sourceEntryRow(sheet,m)];
+}
+function installSourceDesign(design) {
+  if(design?.type!=='editorial-source-design'||design.version!==1||
+    !Object.keys(KIND).every(kind=>{
+      const t=design.tables?.[kind];
+      return t&&[t.order,t.choices,t.palette,t.rules].every(Array.isArray)&&t.header&&t.row&&t.base&&t.lists;
+    }))throw Error('Выбери JSON с оформлением исходной таблицы.');
+  db.settings.sourceDesign=design;
+}
+function dropdownSpec(kind,m,col) {
+  const sheet=sourceSheet(kind), key=col.key;
+  const variant=sourceEntry(sheet,m)?.[1]?.[key]??sheet?.lists[key];
+  const source=sheet?.choices[variant];
+  const defaults={format:formatNames,channels:channelNames,stage:()=>stageNames(kind),owner:ownerNames};
+  const labels=source??(defaults[key]?defaults[key]():col.type==='select'?col.options:null);
+  if(!Array.isArray(labels))return undefined;
+  const known=labels.map(label=>[key==='format'?formatAliases[label]||label:label,label]);
+  const multi=['format','channels','tags'].includes(key);
+  const old=multi?splitChoices(joined(m,key)):[m?.[key]];
+  return {multi,strict:Boolean(source)||col.type==='select',choices:[
+    ...known,...unique(old).filter(value=>!known.some(pair=>pair[0]===value)).map(value=>[value,value]),
+  ]};
+}
+const splitChoices=value=>unique(String(value??'').split(/[,\n]/).map(x=>x.trim()));
+function displayChoices(kind,m,col,raw) {
+  const spec=dropdownSpec(kind,m,col);
+  if(!spec?.multi||!raw)return raw;
+  if(col.key==='format'&&raw==='Рилс Алёны'&&!m.formatTouched&&sourceEntry(sourceSheet(kind),m)?.[3]==='Рилс')return 'Рилс';
+  return splitChoices(raw).map(value=>spec.choices.find(pair=>pair[0]===value)?.[1]||value).join(', ');
+}
+function validateDropdown(item,col,value) {
+  const spec=dropdownSpec(item.kind,item,col);
+  if(!spec?.strict||!value)return value;
+  const list=spec.multi?splitChoices(value):[value.trim()];
+  const matched=list.map(t=>spec.choices.find(pair=>pair.some(s=>norm(s)===norm(t))));
+  if(matched.some(pair=>!pair))throw Error('Выбери значение из списка «'+col.label+'».');
+  return matched.map(pair=>pair[0]).join(', ');
+}
+const SOURCE_PREP={'Лонгрид':[5,2],'Рилс':[7,3],'Короткий пост':[3,1],'Карусель':[7,3]};
+function prepConfig(kind) {
+  return db.settings.kinds[kind].prep??{enabled:kind==='social',days:{...SOURCE_PREP}};
+}
+function workdayBefore(date,count) {
+  if(!isoDate(date)||!Number.isInteger(count)||count<1||count>367)return '';
+  let result=date;
+  for(let remaining=count;remaining>0;){
+    result=plus(result,-1);
+    if(weekday(result)<6)remaining--;
+  }
+  return result;
+}
+function prepDate(m,key) {
+  if(!m)return '';
+  const cfg=prepConfig(m.kind);
+  if(!cfg.enabled)return m[key]||'';
+  const original=sourceEntry(sourceSheet(m.kind),m)?.[3];
+  const format=m.formats.length!==1?'':m.formats[0]==='Рилс Алёны'&&!m.formatTouched&&original==='Рилс'?'Рилс':m.formats[0];
+  const days=cfg.days[format]?.[key==='start'?0:1];
+  return days>0?workdayBefore(m.deadline,days+1):'';
+}
+const sourceInk=value=>typeof value==='string'&&/^#[\da-f]{6}$/i.test(value)?value:undefined;
+const allowedFonts=new Set(['Raleway','Arial','Roboto','Inter','Calibri','Times New Roman','Courier New','Montserrat','Open Sans','Georgia']);
+function styleText(target,s){
+  if(allowedFonts.has(s.font))target.style.fontFamily='"'+s.font+'", sans-serif';
+  if(Number.isFinite(s.size))target.style.fontSize=Math.max(7,Math.min(32,s.size))*4/3+'px';
+  if(typeof s.bold==='boolean')target.style.fontWeight=s.bold?'700':'400';
+  if(typeof s.italic==='boolean')target.style.fontStyle=s.italic?'italic':'normal';
+  if(s.strike||s.underline)target.style.textDecoration=[s.strike?'line-through':'',s.underline?'underline':''].filter(Boolean).join(' ');
+  if(sourceInk(s.ink))target.style.color=s.ink;
+}
+function sourceGridStyle(target,s) {
+  if(!s)return;
+  styleText(target,s);
+  if(sourceInk(s.fill))target.style.setProperty('--cell-fill',s.fill);
+  if(['left','center','right'].includes(s.align))target.style.textAlign=s.align;
+  if(['top','middle','bottom'].includes(s.vertical))target.style.verticalAlign=s.vertical;
+  if(s.wrap==='wrap')target.classList.add('sheet-wrap-value');
+  if(s.wrap==='clip')target.classList.add('sheet-clip-value');
+  for(const side of ['top','right','bottom','left']){
+    const [kind,ink]=s.borders?.[side]??[];
+    if(!kind)continue;
+    const borders={DOTTED:'1px dotted',DASHED:'1px dashed',SOLID:'1px solid',SOLID_MEDIUM:'2px solid',SOLID_THICK:'3px solid',DOUBLE:'3px double'};
+    if(borders[kind])target.style.setProperty('border-'+side,borders[kind]+' '+(sourceInk(ink)||'#000000'));
+  }
+}
+function cellDecoration(kind,m,col,td,value) {
+  const sheet=sourceSheet(kind), entry=sourceEntry(sheet,m);
+  const state=m?.cellStyles?.[col.key]??{};
+  const base=sheet?.palette[entry?.[0]?.[col.key]??sheet?.base[col.key]]??{};
+  const rule=sheet?.rules.find(rule=>rule.key===col.key&&norm(value.text).includes(norm(rule.contains)));
+  const needsAnnouncement=sheet&&col.key==='announcement'&&!value.text&&m?.formats?.includes('Анонс в ТГ');
+  const style={...base,...sheet?.palette[rule?.style],...(needsAnnouncement?{fill:'#f4cccc'}:{}),...state};
+  if(Object.hasOwn(state,'fill'))style.fill=highlightColors[state.fill]??state.fill??'#ffffff';
+  sourceGridStyle(td,style);
+  const span=el('span',null,'sheet-value');
+  span.title=value.text;
+  const item=entry?.[2]?.[col.key];
+  if(item?.runs?.length&&sourceTextHash(value.text)===item.hash) {
+    let last=0, decoration={};
+    for(const [index,next] of [...item.runs,[value.text.length,{}]]) {
+      if(index>last) {
+        const href=safeHref(decoration.link), part=el(href?'a':'span',value.text.slice(last,index));
+        if(href){part.href=href;part.target='_blank';part.rel='noopener noreferrer';}
+        styleText(part,{...decoration,...Object.fromEntries(Object.entries(state).filter(([name])=>['bold','italic','ink'].includes(name)))});
+        span.append(part);
+      }
+      last=index;decoration=next;
+    }
+  } else span.textContent=value.text;
+  return span;
+}
+function prepSettings(kind) {
+  const form=el('form',null,'grid'), cfg=prepConfig(kind);
+  field(form,'enabled','Авторасчёт',select([['yes','Включён'],['no','Выключен']],cfg.enabled?'yes':'no'));
+  form.append(el('p','Старт и финиш считаются от дедлайна. Как в исходнике, к указанному сроку прибавляется один рабочий день. Ноль оставляет дату пустой.','wide subtle'));
+  const formats=unique([...Object.keys(cfg.days),...formatNames()]);
+  for(const [i,format] of formats.entries()){
+    const start=textField(form,'start'+i,format+' · старт',cfg.days[format]?.[0]??0,'number',true);
+    const finish=textField(form,'finish'+i,format+' · финиш',cfg.days[format]?.[1]??0,'number',true);
+    for(const input of [start,finish]){input.min=0;input.max=366;input.step=1;}
+  }
+  formActions(form,'Сохранить сроки');
+  form.onsubmit=e=>{
+    e.preventDefault();
+    const values=new FormData(form);
+    const days=Object.fromEntries(formats.map((format,i)=>[format,[Number(values.get('start'+i)),Number(values.get('finish'+i))]]));
+    db.settings.kinds[kind].prep={enabled:values.get('enabled')==='yes',days};
+    changed();dialog.close();notify('Сроки подготовки сохранены.');
+  };
+  modal('Подготовка · '+kindLabel(kind),form);
+}
+
+const gridPreferences=new Map();
+function getGridPreferences(kind){
+  if(gridPreferences.has(kind))return gridPreferences.get(kind);
+  const defaults={column:'',dir:1,widths:{},row:0,col:0};
+  try {return {...defaults,...JSON.parse(localStorage.getItem('editorial-grid-'+kind))};}
+  catch {return defaults;}
+}
+function storeGridPreferences(kind,prefs){
+  try{localStorage.setItem('editorial-grid-'+kind,JSON.stringify(prefs));}catch{}
+}
+const readOnlyCols=new Set(['next','result']);
+const gridNumber=new Intl.PluralRules('ru');
+const gridDateCols=new Set(['deadline','start','finish']);
+const highlightColors={mint:'#d7eadc',peach:'#f8e4d3',lavender:'#e7e2f8'};
+const gridColsLetter=index=>{
+  let letter='';
+  for(let pos=index+1;pos>0;pos=Math.floor((pos-1)/26))letter=String.fromCharCode(65+(pos-1)%26)+letter;
+  return letter;
+};
+const tsvCell=value=>/[\t\r\n"]/.test(value)?'"'+value.replaceAll('"','""')+'"':value;
+function gridDisplay(m,col){
+  if(!m)return {text:'',raw:''};
+  const pubs=byMaterial.get(m.id)||[];
+  if(col.key==='next'){
+    const next=pubs.filter(p=>p.date && p.status==='planned').sort((a,b)=>a.date.localeCompare(b.date))[0];
+    return {text:next?formatDate(next.date):'',raw:next?formatDate(next.date):'',next};
+  }
+  if(col.key==='result'){
+    const text=unique(pubs.map(p=>labelStatus(p.status))).join(', ');
+    return {text,raw:text};
+  }
+  if(['start','finish'].includes(col.key)&&prepConfig(m.kind).enabled){
+    const raw=prepDate(m,col.key);return {raw,text:formatDate(raw)};
+  }
+  const raw=joined(m,col.key);
+  return {raw,text:gridDateCols.has(col.key)||col.type==='date'?formatDate(raw):displayChoices(m.kind,m,col,raw)};
+}
+function tableView(kind) {
+  const prefs=getGridPreferences(kind), sheet=sourceSheet(kind);
+  const readOnly=col=>readOnlyCols.has(col.key)||(['start','finish'].includes(col.key)&&prepConfig(kind).enabled);
+  gridPreferences.set(kind,prefs);
+  let cols=[],rows=[],pageRows=[],pageCount=1,anchor={row:prefs.row,col:prefs.col},focus={...anchor};
+  let grid,viewport,editing=false,dragging=false,extraRows=0, pendingEditor=null;
+  const past=[], future=[], pageSize=180;
+  const status=el('span',null,'sheet-status subtle'), target=el('div',null,'sheet-root');
+  const bar=el('div',null,'sheet-top'), filtersBar=el('div',null,'filters sheet-filters');
+  const tools=el('div',null,'actions sheet-actions');
+  const entry=el('div',null,'sheet-entry'), address=el('output','A1','sheet-address');
+  const fieldValue=input();fieldValue.setAttribute('aria-label','Содержимое выделенной ячейки');
+  const pagination=el('div',null,'actions pagination');
+  const undoButton=button('↶',()=>historyMove(past,future,'before'),'icon','Отменить изменение');
+  const redoButton=button('↷',()=>historyMove(future,past,'after'),'icon','Повторить изменение');
+  const boldButton=button('Ж',()=>styleCells('bold'),'icon','Полужирный текст');
+  const italicButton=button('К',()=>styleCells('italic'),'icon sheet-italic','Курсив');
+  const resetColors=button('Сбросить цвета',()=>styleCells('resetColors'),'','Сбросить цвет текста и заливку');
+  const fill=input('#ffffff','color'), ink=input('#202927','color');
+  const colorTool=(title,control)=>{
+    const label=el('label',title,'sheet-color');
+    control.setAttribute('aria-label',title);label.append(control);return label;
+  };
+  fill.onchange=()=>styleCells('fill',fill.value);
+  ink.onchange=()=>styleCells('ink',ink.value);
+  top(kindLabel(kind),'Рабочая таблица материалов и ближайших выходов.',button('+ Карточка',()=>materialEditor({}, {kind}),'primary'));
+  filtersBar.append(searchBox('Поиск по материалам',()=>refresh()),filterControl('stage',stageNames(kind),'Все этапы',()=>refresh()),
+    filterControl('owner',ownerNames(),'Все ответственные',()=>refresh()),filterControl('channel',channelNames(),'Все площадки',()=>refresh()),
+    filterControl('format',formatNames(),'Все форматы',()=>refresh()));
+  tools.append(button('+ Строка',addRow),undoButton,redoButton,boldButton,italicButton,colorTool('Заливка',fill),colorTool('Цвет текста',ink),resetColors,
+    button('Открыть карточку',()=>{const m=pageRows[focus.row];if(m)materialEditor(m);}),
+    button('Столбцы',()=>columnSettings(kind)));
+  bar.append(filtersBar,tools);
+  entry.append(address,fieldValue,status);
+  main.append(bar,entry,target,pagination);
+  const mod=e=>e.metaKey||e.ctrlKey;
+  const mutation=e=>['INPUT','SELECT','TEXTAREA'].includes(e.target?.tagName);
+  const selected=()=>({r1:Math.min(anchor.row,focus.row),r2:Math.max(anchor.row,focus.row),
+    c1:Math.min(anchor.col,focus.col),c2:Math.max(anchor.col,focus.col)});
+  const rowCount=()=>Math.max(pageRows.length+extraRows,Math.min(8,pageSize));
+  const cellAt=(row,col)=>grid?.tBodies[0]?.rows[row]?.cells[col+1];
+  function refresh({selectCell=false,rebuild=true}={}) {
+    if(rebuild){
+      cols=columns(kind);
+      rows=db.materials.filter(m=>m.kind===kind && (!filters.stage||m.stage===filters.stage)
+        && (!filters.owner||m.owner===filters.owner) && (!filters.channel||m.channels.includes(filters.channel))
+        && (!filters.format||m.formats.includes(filters.format))
+        && matches(filters.query,[m.title,m.owner,m.stage,m.note,m.description,m.formats.join(' '),m.channels.join(' ')]));
+      const sort=cols.find(c=>c.key===prefs.column);
+      if(sort)rows.sort((a,b)=>prefs.dir*gridDisplay(a,sort).raw.localeCompare(gridDisplay(b,sort).raw,'ru',{numeric:true}));
+      pageCount=Math.max(1,Math.ceil(rows.length/pageSize));
+      page=Math.min(page,pageCount-1);
+      pageRows=rows.slice(page*pageSize,(page+1)*pageSize);
+    } else {
+      pageRows=pageRows.filter(Boolean).map(m=>materials.get(m.id)).filter(Boolean);
+    }
+    const scrollX=viewport?.scrollLeft||0, scrollY=viewport?.scrollTop||0;
+    viewport=el('div',null,'table-wrap sheet-scroll');
+    viewport.setAttribute('aria-label','Рабочая область таблицы. Стрелки, Enter, копирование и вставка доступны с клавиатуры.');
+    grid=el('table',null,'sheet-grid'+(sheet?' source-sheet':''));
+    grid.style.width=48+cols.reduce((sum,col)=>sum+widthFor(col),0)+'px';
+    grid.setAttribute('role','grid');
+    grid.setAttribute('aria-label','Производство · '+kindLabel(kind));
+    grid.setAttribute('aria-multiselectable','true');
+    const widths=el('colgroup');
+    widths.append(el('col'));
+    for(const col of cols){
+      const size=el('col');size.style.width=widthFor(col)+'px';widths.append(size);
+    }
+    grid.append(widths);
+    const thead=grid.createTHead();
+    for(const [index,notes] of (sheet?.notes??[]).entries()){
+      const row=thead.insertRow();row.className='sheet-guidance';
+      const number=el('th',String(index+1),'sheet-number');row.append(number);
+      const merged=index===0?sheet.headerMerge:null;
+      const indices=merged?.map(key=>cols.findIndex(col=>col.key===key)).filter(i=>i>=0).sort((a,b)=>a-b);
+      const contiguous=indices?.length>1&&indices.at(-1)-indices[0]===indices.length-1;
+      for(const [i,col] of cols.entries()){
+        if(contiguous&&indices.includes(i)&&i!==indices[0])continue;
+        const note=notes[sheet.order.indexOf(contiguous&&i===indices[0]?merged[0]:col.key)];
+        const cell=el('th');
+        if(contiguous&&i===indices[0])cell.colSpan=indices.length;
+        if(note){sourceGridStyle(cell,note[1]);cell.append(el('span',note[0],'sheet-value'));cell.title=note[0];}
+        row.append(cell);
+      }
+    }
+    const head=thead.insertRow();
+    const all=el('th',null,'sheet-corner');
+    all.scope='col';
+    all.append(button('▦',()=>selectAll(),'sheet-header-btn','Выделить таблицу'));
+    head.append(all);
+    for(const [i,col] of cols.entries()){
+      const header=el('th',null,col.key==='title'?'sheet-title-col':'');
+      header.scope='col';
+      sourceGridStyle(header,sheet?.palette[sheet?.header[col.key]?.style]);
+      if(prefs.column===col.key)header.setAttribute('aria-sort',prefs.dir===1?'ascending':'descending');
+      const caption=button('',()=>{
+        prefs.dir=prefs.column===col.key?-prefs.dir:1;prefs.column=col.key;page=0;storeGridPreferences(kind,prefs);refresh();
+      },'sheet-header-btn','Сортировать по столбцу '+col.label);
+      caption.append(el('small',gridColsLetter(i)),el('span',col.label+(prefs.column===col.key?(prefs.dir===1?' ↑':' ↓'):'')));
+      caption.title=col.label;
+      header.append(caption);
+      const handle=el('button',null,'sheet-resize');
+      handle.type='button';handle.tabIndex=-1;handle.title='Потяни, чтобы изменить ширину';handle.setAttribute('aria-label','Ширина столбца '+col.label);
+      handle.onpointerdown=e=>{
+        e.preventDefault();
+        handle.setPointerCapture(e.pointerId);
+        const start=e.clientX, width=widthFor(col);
+        handle.onpointermove=move=>{
+          const value=Math.max(90,Math.min(640,width+move.clientX-start));
+          prefs.widths[col.key]=value;
+          widths.children[i+1].style.width=value+'px';
+          grid.style.width=48+cols.reduce((sum,col)=>sum+widthFor(col),0)+'px';
+        };
+        handle.onlostpointercapture=()=>{handle.onpointermove=null;storeGridPreferences(kind,prefs);};
+      };
+      handle.ondblclick=()=>{delete prefs.widths[col.key];storeGridPreferences(kind,prefs);refresh();};
+      header.append(handle);head.append(header);
+    }
+    const body=grid.createTBody();
+    for(let row=0;row<rowCount();row++){
+      const m=pageRows[row], tr=body.insertRow(), number=el('th',String(page*pageSize+row+1+(sheet?.headerRows??0)),'sheet-number');
+      const sourceRow=sourceEntryRow(sheet,m);
+      if(sheet?.rowDefault)tr.style.height=(sheet.rowSize?.[sourceRow]??sheet.rowDefault)+'px';
+      number.scope='row';tr.append(number);
+      for(const [colIndex,col] of cols.entries()){
+        const td=tr.insertCell(),value=gridDisplay(m,col),spec=dropdownSpec(kind,m,col);
+        td.dataset.row=row;td.dataset.col=colIndex;td.tabIndex=-1;
+        td.setAttribute('role','gridcell');
+        if(col.key==='title'&&!sheet)td.classList.add('sheet-title-col');
+        if(readOnly(col))td.setAttribute('aria-readonly','true');
+        td.append(cellDecoration(kind,m,col,td,value));
+        if(spec&&m&&!readOnly(col)){
+          const arrow=button('▾',()=>{move(row,colIndex,false,true);edit();},'sheet-dropdown-toggle','Открыть список '+col.label);
+          arrow.tabIndex=-1;td.classList.add('sheet-list-cell');td.append(arrow);
+        }
+      }
+    }
+    grid.onpointerdown=e=>{
+      const td=e.target.closest('td[data-row]');
+      if(!td||e.button!==0||mutation(e)||e.target.closest('button,a'))return;
+      if(e.pointerType!=='touch')e.preventDefault();
+      if(pendingEditor)pendingEditor();
+      dragging=e.pointerType!=='touch';
+      move(Number(td.dataset.row),Number(td.dataset.col),e.shiftKey,true);
+    };
+    grid.onpointerover=e=>{
+      const td=e.target.closest('td[data-row]');
+      if(dragging && e.buttons===1 && td && !editing)move(Number(td.dataset.row),Number(td.dataset.col),true,false);
+    };
+    grid.onpointerup=()=>{dragging=false;};
+    grid.ondblclick=e=>{
+      const td=e.target.closest('td[data-row]');
+      if(td && !editing){move(Number(td.dataset.row),Number(td.dataset.col),false,true);edit();}
+    };
+    grid.onkeydown=keys;
+    grid.oncopy=e=>{
+      if(mutation(e))return;
+      if(e.clipboardData){
+        e.preventDefault();
+        const region=selected(), lines=[];
+        for(let r=region.r1;r<=region.r2;r++){
+          const values=[];
+          for(let c=region.c1;c<=region.c2;c++)values.push(tsvCell(gridDisplay(pageRows[r],cols[c]).text));
+          lines.push(values.join('\t'));
+        }
+        e.clipboardData.setData('text/plain',lines.join('\n'));
+      }
+    };
+    grid.onpaste=e=>{
+      if(mutation(e)||!e.clipboardData)return;
+      e.preventDefault();
+      const values=parseTSV(e.clipboardData.getData('text/plain'));
+      if(values.length)applyValues(values);
+    };
+    viewport.append(grid);target.replaceChildren(viewport);
+    viewport.scrollLeft=scrollX;viewport.scrollTop=scrollY;
+    pagination.replaceChildren();
+    if(pageCount>1){
+      const prev=button('Предыдущая',()=>{page--;refresh()}),next=button('Следующая',()=>{page++;refresh()});
+      prev.disabled=page===0;next.disabled=page===pageCount-1;
+      pagination.append(el('small',(page+1)+' из '+pageCount),prev,next);
+    }
+    const bound=coord=>({row:Math.max(0,Math.min(coord.row,rowCount()-1)),col:Math.max(0,Math.min(coord.col,cols.length-1))});
+    anchor=bound(anchor);focus=bound(focus);
+    paint(selectCell);
+  }
+  function widthFor(col){
+    return prefs.widths[col.key] || sheet?.width?.[col.key] || (col.key==='title'?246:MULTILINE.includes(col.key)?219:gridDateCols.has(col.key)?122:152);
+  }
+  function move(row,col,extend=false,focusDOM=false){
+    const next={row:Math.max(0,Math.min(row,rowCount()-1)),col:Math.max(0,Math.min(col,cols.length-1))};
+    if(!extend)anchor=next;
+    focus=next;
+    prefs.row=next.row;prefs.col=next.col;
+    paint(focusDOM);
+  }
+  function paint(focusDOM){
+    if(!grid||!cols.length)return;
+    for(const td of grid.querySelectorAll('.sheet-selected,.sheet-active')){
+      td.classList.remove('sheet-selected','sheet-active');td.setAttribute('aria-selected','false');td.tabIndex=-1;
+    }
+    const range=selected();
+    for(let r=range.r1;r<=range.r2;r++)for(let c=range.c1;c<=range.c2;c++){
+      const td=cellAt(r,c);
+      td.classList.add('sheet-selected');td.setAttribute('aria-selected','true');
+    }
+    const cell=cellAt(focus.row,focus.col), m=pageRows[focus.row], col=cols[focus.col];
+    cell.classList.add('sheet-active');cell.tabIndex=0;
+    if(focusDOM)cell.focus();
+    const label=(r,c)=>gridColsLetter(c)+(r+1+page*pageSize+(sheet?.headerRows??0));
+    address.textContent=label(range.r1,range.c1)+(range.r1===range.r2&&range.c1===range.c2?'':':'+label(range.r2,range.c2));
+    fieldValue.value=gridDisplay(m,col).text;
+    fieldValue.readOnly=readOnly(col);
+    status.textContent=rows.length+' '+({one:'материал',few:'материала',many:'материалов'}[gridNumber.select(rows.length)]||'материала');
+    undoButton.disabled=!past.length; redoButton.disabled=!future.length;
+    const cellStyle=m?.cellStyles?.[col.key]??{};
+    const sourceStyle=sheet?.palette[sourceEntry(sheet,m)?.[0]?.[col.key]??sheet?.base[col.key]]??{};
+    boldButton.setAttribute('aria-pressed',String(Boolean(cellStyle.bold??sourceStyle.bold)));
+    italicButton.setAttribute('aria-pressed',String(Boolean(cellStyle.italic??sourceStyle.italic)));
+    fill.value=sourceInk(cellStyle.fill??sourceStyle.fill)||'#ffffff';
+    ink.value=sourceInk(cellStyle.ink??sourceStyle.ink)||'#202927';
+  }
+  function selectAll(){
+    anchor={row:0,col:0};
+    move(rowCount()-1,cols.length-1,true,true);
+  }
+  function addRow(){
+    extraRows=Math.max(extraRows,pageRows.length<8?0:1);
+    refresh({rebuild:false});
+    const title=cols.findIndex(c=>c.key==='title');
+    move(pageRows.length,title,false,true);edit();
+  }
+  function keys(e){
+    if(mutation(e)||editing)return;
+    const deltas={ArrowUp:[-1,0],ArrowDown:[1,0],ArrowLeft:[0,-1],ArrowRight:[0,1]};
+    const delta=deltas[e.key];
+    if(delta){e.preventDefault();move(focus.row+delta[0],focus.col+delta[1],e.shiftKey,true);return;}
+    if(mod(e)&&e.key.toLowerCase()==='a'){e.preventDefault();selectAll();return;}
+    if(mod(e)&&e.key.toLowerCase()==='z'){e.preventDefault();e.shiftKey?historyMove(future,past,'after'):historyMove(past,future,'before');return;}
+    if(mod(e)&&e.key.toLowerCase()==='y'){e.preventDefault();historyMove(future,past,'after');return;}
+    if(e.key==='Tab'){
+      const next=focus.col+(e.shiftKey?-1:1);
+      if(next>=0&&next<cols.length){e.preventDefault();move(focus.row,next,false,true);}
+      return;
+    }
+    if(e.key==='Enter'||e.key==='F2'){e.preventDefault();edit();return;}
+    if(e.key==='Delete'||e.key==='Backspace'){e.preventDefault();clearRange();return;}
+    if(e.key.length===1&&!mod(e)&&!e.altKey){e.preventDefault();edit(e.key);}
+  }
+  fieldValue.onkeydown=e=>{
+    if(e.key==='Enter'&&!fieldValue.readOnly){e.preventDefault();anchor=focus;applyValues([[fieldValue.value]]);}
+    if(e.key==='Escape'){fieldValue.value=gridDisplay(pageRows[focus.row],cols[focus.col]).text;cellAt(focus.row,focus.col).focus();}
+  };
+  function edit(initial){
+    const m=pageRows[focus.row], col=cols[focus.col], td=cellAt(focus.row,focus.col);
+    const value=gridDisplay(m,col);
+    if(readOnly(col)){if(value.next)publicationEditor(value.next);else if(m)materialEditor(m);return;}
+    if(!m&&col.key!=='title'){notify('Сначала заполни название новой строки.');return;}
+    if(editing)return;
+    anchor=focus;paint(false);
+    const spec=dropdownSpec(kind,m,col);
+    if(spec){openChoices(m,col,spec,td);return;}
+    const type=gridDateCols.has(col.key)||col.type==='date'?'date':'text';
+    const textarea=MULTILINE.includes(col.key)||col.type==='textarea';
+    const control=textarea?el('textarea'):input(value.raw,type);
+    control.value=type==='date'?value.raw:initial??value.raw;
+    control.setAttribute('aria-label','Редактировать '+col.label);
+    td.classList.add('sheet-editing');td.replaceChildren(control);editing=true;
+    function finish(commit,delta=0,advance=0){
+      if(!editing)return;
+      const entered=control.value;
+      editing=false;pendingEditor=null;
+      td.classList.remove('sheet-editing');
+      if(commit){
+        applyValues([[entered]],{focusDOM:false});
+        if(advance||delta)move(focus.row+advance,focus.col+delta,false,true);
+        else cellAt(focus.row,focus.col)?.focus();
+      }else{
+        const restored=el('span',value.text,'sheet-value');restored.title=value.text;
+        td.replaceChildren(restored);td.focus();
+      }
+    }
+    pendingEditor=()=>finish(true);
+    control.onblur=()=>{if(pendingEditor)finish(true);};
+    control.onkeydown=e=>{
+      if(e.key==='Escape'){e.preventDefault();finish(false);}
+      if(e.key==='Enter'&&(!textarea||!e.shiftKey)){e.preventDefault();finish(true,0,1);}
+      if(e.key==='Tab'){e.preventDefault();finish(true,e.shiftKey?-1:1);}
+    };
+    control.focus();
+    if(initial===undefined && control.tagName!=='SELECT' && type==='text')control.select();
+  }
+  function writeValue(item,col,raw){
+    if(readOnly(col))return;
+    if(col.key==='title'&&!String(raw).trim())return;
+    if((col.type==='date'||gridDateCols.has(col.key))&&String(raw).trim()&&!parseDate(raw)){
+      throw Error('Не удалось прочитать дату в столбце «'+col.label+'». Используй ДД.ММ.ГГГГ или ГГГГ-ММ-ДД.');
+    }
+    writeCell(item,col.key,validateDropdown(item,col,String(raw)),col.type);
+  }
+  function applyValues(values,{focusDOM=true}={}){
+    const range=selected(), changes=[];
+    try{
+      for(const [offset,valuesRow] of values.entries()){
+        const r=range.r1+offset, original=pageRows[r];
+        const item=original?structuredClone(original):{id:id(),kind,title:'',formats:[],channels:[]};
+        for(const [x,raw] of valuesRow.entries()){
+          const col=cols[range.c1+x];
+          if(col)writeValue(item,col,raw);
+        }
+        if(!item.title)continue;
+        if(JSON.stringify(original)!==JSON.stringify(item))changes.push({before:original,after:item,row:r});
+      }
+      commit(changes,focusDOM);
+    }catch(error){notify(error.message);refresh({rebuild:false,selectCell:focusDOM});}
+  }
+  function clearRange(){
+    const range=selected(), changes=[];
+    for(let r=range.r1;r<=range.r2;r++){
+      const original=pageRows[r];if(!original)continue;
+      const item=structuredClone(original);
+      for(let c=range.c1;c<=range.c2;c++)writeValue(item,cols[c],'');
+      if(JSON.stringify(original)!==JSON.stringify(item))changes.push({before:original,after:item,row:r});
+    }
+    commit(changes,true);
+  }
+  function openChoices(m,col,spec,td) {
+    const content=el('div',null,'sheet-dropdown-options');
+    const popup=el('div',null,'sheet-dropdown');popup.setAttribute('popover','auto');
+    const previous=joined(m,col.key), active=new Set(spec.multi?splitChoices(previous):[previous]);
+    let floating=false;
+    function choose(value) {
+      if(floating)popup.hidePopover();else dialog.close();
+      applyValues([[value]]);
+    }
+    for(const [value,label] of spec.choices){
+      if(spec.multi){
+        const check=input(value,'checkbox');check.checked=active.has(value);
+        check.onchange=()=>check.checked?active.add(value):active.delete(value);
+        const row=el('label',null,'sheet-option');row.append(check,el('span',label));content.append(row);
+      }else {
+        const option=button(label,()=>choose(value),'sheet-option');
+        if(active.has(value))option.setAttribute('aria-current','true');
+        content.append(option);
+      }
+    }
+    if(spec.multi)content.append(button('Готово',()=>choose([...active].join(', ')),'primary'));
+    else content.append(button('Очистить',()=>choose(''),'sheet-option'));
+    if(typeof popup.showPopover!=='function'){modal(col.label,content);return;}
+    popup.append(el('strong',col.label),content);
+    popup.setAttribute('aria-label',col.label);popup.setAttribute('role','dialog');
+    const rect=td.getBoundingClientRect(), width=Math.min(330,window.innerWidth-20);
+    popup.style.left=Math.max(10,Math.min(rect.left,window.innerWidth-width-10))+'px';
+    popup.style.top=Math.max(10,Math.min(rect.bottom+4,window.innerHeight-320))+'px';
+    document.body.append(popup);
+    popup.addEventListener('toggle',e=>{if(e.newState==='closed')popup.remove();});
+    floating=true;popup.showPopover();
+    popup.querySelector('input,button')?.focus();
+  }
+  function styleCells(name,value){
+    const range=selected(), changes=[];
+    const active=pageRows[focus.row], key=cols[focus.col].key;
+    const inherited=sheet?.palette[sourceEntry(sheet,active)?.[0]?.[key]??sheet?.base[key]]??{};
+    const toggle=!(active?.cellStyles?.[key]?.[name]??inherited[name]);
+    for(let r=range.r1;r<=range.r2;r++){
+      const original=pageRows[r];if(!original)continue;
+      const item=structuredClone(original);
+      item.cellStyles??={};
+      for(let c=range.c1;c<=range.c2;c++){
+        const key=cols[c].key;
+        if(readOnly(cols[c]))continue;
+        const style=item.cellStyles[key]||{};
+        if(name==='resetColors'){delete style.fill;delete style.ink;}
+        else style[name]=name==='bold'||name==='italic'?toggle:value;
+        if(Object.keys(style).length)item.cellStyles[key]=style;else delete item.cellStyles[key];
+      }
+      if(!Object.keys(item.cellStyles).length)delete item.cellStyles;
+      if(JSON.stringify(original)!==JSON.stringify(item))changes.push({before:original,after:item,row:r});
+    }
+    commit(changes,true);
+  }
+  function commit(changes,focusDOM){
+    if(changes.length){
+      changes.forEach(change=>{upsert(db.materials,change.after);pageRows[change.row]=change.after;});
+      past.push(changes);
+      if(past.length>30)past.shift();
+      future.length=0;changed({draw:false});
+    }
+    extraRows=0;refresh({rebuild:changes.some(change=>!change.before),selectCell:focusDOM});
+  }
+  function historyMove(from,to,direction){
+    if(!from.length)return;
+    const changes=from.pop();
+    for(const change of changes){
+      const target=change[direction];
+      if(target)upsert(db.materials,target);
+      else {
+        db.materials=db.materials.filter(m=>m.id!==change.after.id);
+      }
+    }
+    to.push(changes);changed({draw:false});refresh({selectCell:true});
+  }
+  refresh();
+}
+
+const main=document.querySelector('#main'), dialog=document.querySelector('#dialog');
+let db=blank(), revision=0, dirty=false, sending=false, conflict=false, syncTimer, toastTimer, remoteReady=false;
+let view='calendar', month=TODAY().slice(0,7), calendarMode=matchMedia('(max-width: 670px)').matches?'list':'month', page=0;
+let filters={query:'',channel:'',format:'',status:'',stage:'',owner:''};
+let materials=new Map(), topics=new Map(), byMaterial=new Map(), bank=[], channelColors=new Map();
+function index() {
+  materials=new Map(db.materials.map(m=>[m.id,m]));
+  topics=new Map(db.topics.map(t=>[t.id,t]));
+  byMaterial=new Map();
+  for(const p of db.publications) {
+    if(!byMaterial.has(p.materialId)) byMaterial.set(p.materialId,[]);
+    byMaterial.get(p.materialId).push(p);
+  }
+  bank=bankMaterials(db);
+  channelColors=new Map(channelNames().map((name,i)=>[name,TINTS[i%TINTS.length]]));
+}
+const labelStatus = status => {
+  const label=db.settings.outcomeLabels?.[status] || OUTCOMES[status];
+  const markers={live:'✅',missed:'❌',planned:'⏳'};
+  return db.settings.sourceDesign&&label===OUTCOMES[status]?markers[status]+' '+label:label;
+};
+const kindLabel = kind => db.settings.kinds[kind].label;
+const channelNames = () => unique([...db.settings.channels.map(c=>c.name),...db.materials.flatMap(m=>m.channels),...db.publications.map(p=>p.channel)]);
+const formatNames = () => unique([...db.settings.formats,...db.materials.flatMap(m=>m.formats),...db.publications.map(p=>p.format)]);
+const ownerNames = () => unique([...db.settings.owners,...db.materials.map(m=>m.owner)]);
+const stageNames = kind => unique([...db.settings.kinds[kind].stages,...db.materials.filter(m=>m.kind===kind).map(m=>m.stage)]);
+const channelRecord = name => db.settings.channels.find(c=>c.name===name);
+function el(tag,text,cls) {
+  const n=document.createElement(tag);
+  if(text!==undefined && text!==null) n.textContent=text;
+  if(cls) n.className=cls;
+  return n;
+}
+function button(text,fn,cls='',aria) {
+  const b=el('button',text,'btn '+cls);b.type='button';b.onclick=fn;
+  if(aria) b.setAttribute('aria-label',aria);
+  return b;
+}
+function line(title,detail,...controls) {
+  const row=el('div',null,'line'), info=el('div');
+  info.append(el('strong',title));
+  if(detail) info.append(el('small',detail));
+  row.append(info,...controls);
+  return row;
+}
+function select(options,value='',placeholder='') {
+  const input=el('select');
+  if(placeholder) input.append(new Option(placeholder,''));
+  for(const entry of options) {
+    const [key,title]=Array.isArray(entry)?entry:[entry,entry];
+    input.append(new Option(title,key));
+  }
+  input.value=value;
+  return input;
+}
+function input(value='',type='text') {
+  const n=el('input');n.type=type;n.value=value ?? '';return n;
+}
+function field(form,key,title,control,{wide=false,required=false}={}) {
+  const label=el('label',title,'label'+(wide?' wide':''));
+  control.name=key;control.required=required;label.append(control);form.append(label);
+  return control;
+}
+function textField(form,key,title,value='',type='text',required=false) {
+  const multiline=MULTILINE.includes(key)||type==='textarea';
+  const control=multiline?el('textarea'):input(value,type);
+  if(multiline) control.value=value ?? '';
+  return field(form,key,title,control,{wide:multiline,required});
+}
+function multi(form,key,title,values,selected) {
+  const wrapper=el('fieldset',null,'wide'), legend=el('legend',title), group=el('div',null,'actions');
+  wrapper.style.cssText='border:1px solid var(--border);border-radius:8px;margin:0;padding:5px 10px 9px';
+  legend.className='subtle';
+  const pairs=values.map(item=>Array.isArray(item)?item:[item,item]);
+  const options=new Map([...pairs,...selected.filter(item=>!pairs.some(pair=>pair[0]===item)).map(item=>[item,item])]);
+  for(const [value,caption] of options) {
+    const label=el('label',null,'subtle'), check=el('input');
+    check.type='checkbox';check.name=key;check.value=value;check.checked=selected.includes(value);
+    label.append(check,document.createTextNode(' '+caption)); group.append(label);
+  }
+  wrapper.append(legend,group);form.append(wrapper);
+}
+function link(url,label) {
+  const href=safeHref(url);
+  if(!href) return el('span');
+  const a=el('a',label,'subtle');a.href=href;a.rel='noopener noreferrer';a.target='_blank';return a;
+}
+function notify(message) {
+  const toast=document.querySelector('#toast');toast.textContent=message;toast.hidden=false;
+  if(dialog.open) {
+    const previous=dialog.querySelector('.dialog-message');
+    if(previous)previous.remove();
+    dialog.querySelector('.dialog-body').prepend(el('p',message,'dialog-message'));
+  }
+  clearTimeout(toastTimer);toastTimer=setTimeout(()=>{toast.hidden=true},4300);
+}
+function modal(title,body) {
+  const head=el('div',null,'dialog-head'), content=el('div',null,'dialog-body');
+  head.append(el('h2',title),button('×',()=>dialog.close(),'icon','Закрыть карточку'));
+  content.append(body);dialog.replaceChildren(head,content);
+  if(!dialog.open) dialog.showModal();
+  dialog.scrollTop=0;
+}
+function formActions(form,submitLabel,...controls) {
+  const actions=el('div',null,'actions wide'), submit=el('button',submitLabel,'btn primary');
+  submit.type='submit';
+  actions.append(submit,...controls);form.append(actions);
+}
+function setSync(title,detail='') {
+  document.querySelector('#sync').textContent=title;
+  document.querySelector('#sync-details').textContent=detail;
+}
+let sdk, auth, workspace, activeUser, unsubscribe, latest, generation=0, reconnect;
+const maxSize=850000;
+const userBar=document.querySelector('#team-user');
+
+function signOutButton(label='Выйти') {
+  return button(label,()=>{
+    if(dirty&&!confirm('Есть несохранённые изменения. Выйти из рабочего пространства?'))return;
+    sdk.signOut(auth).catch(()=>notify('Не удалось выйти. Повторите попытку.'));
+  });
+}
+function accountBar() {
+  userBar.replaceChildren();
+  if(activeUser) {
+    userBar.append(el('small',activeUser.email),signOutButton());
+  }
+}
+function accessScreen(message,detail,control) {
+  document.querySelector('#nav').replaceChildren();
+  if(dialog.open)dialog.close();
+  const panel=el('section',null,'panel card');
+  panel.append(el('h1',message),el('p',detail,'subtle'));
+  if(control)panel.append(control);
+  main.replaceChildren(panel);
+  setSync(message,detail);
+}
+function signInScreen(message='Войди своим Google-аккаунтом. Доступ получают участники из списка команды.') {
+  const open=button('Войти через Google',async()=>{
+    open.disabled=true;
+    try {
+      const provider=new sdk.GoogleAuthProvider();
+      provider.setCustomParameters({prompt:'select_account'});
+      await sdk.signInWithPopup(auth,provider);
+    } catch(error) {
+      const hints={
+        'auth/popup-blocked':'Разреши всплывающие окна для этой страницы и попробуй ещё раз.',
+        'auth/unauthorized-domain':'Добавь домен сайта в Firebase → Authentication → Settings → Authorized domains.',
+        'auth/operation-not-allowed':'Включи Google в Firebase → Authentication → Sign-in method.',
+        'auth/popup-closed-by-user':'Окно входа закрыто. Войти можно ещё раз.',
+      };
+      signInScreen(hints[error.code]||'Не удалось войти. Проверь конфигурацию Firebase и подключение.');
+    } finally {open.disabled=false;}
+  },'primary');
+  accessScreen('Командный контент-план',message,open);
+}
+function accessError(error) {
+  if(error.code==='permission-denied') {
+    remoteReady=false;db=blank();latest=undefined;dirty=false;conflict=false;
+    accessScreen('Нет доступа', 'Добавь этот Google email в список доступа в правилах Firestore.', signOutButton('Сменить аккаунт'));
+    return;
+  }
+  if(remoteReady) setSync('Нет связи с базой','Правки доступны в этой вкладке');
+  else accessScreen('База пока недоступна','Проверь, что создана база Firestore (default) и есть подключение к интернету.',
+    button('Повторить',()=>listen(activeUser)));
+}
+function snapshotData(snap) {
+  if(!snap.exists()) return {revision:0,data:null};
+  const doc=snap.data();
+  if(!Number.isSafeInteger(doc.revision)||doc.revision<1||typeof doc.data!=='string')throw Error('Неверный формат общей базы.');
+  return {revision:doc.revision,data:validate(JSON.parse(doc.data))};
+}
+function isEditing() {
+  return dialog.open || Boolean(document.querySelector('.sheet-dropdown')) || (main.contains(document.activeElement)&&['INPUT','SELECT','TEXTAREA'].includes(document.activeElement.tagName));
+}
+function applyLatest(force=false) {
+  if(!latest || sending || (!force&&(dirty||isEditing())))return;
+  if(remoteReady && latest.revision<revision && !force) {latest=undefined;return;}
+  const next=latest;
+  latest=undefined;
+  const redraw=!remoteReady||next.revision!==revision||force;
+  remoteReady=true;
+  if(redraw) {
+    db=next.data||blank();revision=next.revision;index();render();
+  }
+  if(!dirty)setSync('Общий контент-план',revision?'Изменения синхронизированы':'Можно загрузить первую копию в настройках');
+}
+function listen(user) {
+  if(!user)return;
+  if(unsubscribe)unsubscribe();
+  const session=generation;
+  unsubscribe=sdk.onSnapshot(workspace,{includeMetadataChanges:true},snap=>{
+    if(session!==generation || snap.metadata.fromCache || snap.metadata.hasPendingWrites)return;
+    try {
+      latest=snapshotData(snap);
+      applyLatest();
+    } catch {
+      accessScreen('Не удалось прочитать данные','Проверь содержимое документа editorial_workspace/team.');
+    }
+  },error=>{
+    if(session!==generation)return;
+    accessError(error);
+    if(error.code!=='permission-denied') {
+      clearTimeout(reconnect);
+      reconnect=setTimeout(()=>{if(session===generation && navigator.onLine)listen(user);},12000);
+    }
+  });
+}
+function changed({draw=true}={}) {
+  index();dirty=true;
+  if(!conflict) {
+    setSync('Сохраняем…');clearTimeout(syncTimer);syncTimer=setTimeout(push,450);
+  }
+  if(draw)render();
+}
+async function writeSnapshot(transport,ref,expected,data) {
+  const text=JSON.stringify(data);
+  if(new TextEncoder().encode(text).byteLength>maxSize) {
+    throw Object.assign(Error('Лимит базы'),{code:'workspace-too-large'});
+  }
+  return transport.runTransaction(ref.firestore,async tx=>{
+    const current=await tx.get(ref);
+    const remoteRevision=current.exists()?current.data().revision:0;
+    if(remoteRevision!==expected)throw Object.assign(Error('Конфликт версий'),{code:'workspace-conflict'});
+    tx.set(ref,{revision:expected+1,data:text});
+    return expected+1;
+  });
+}
+async function push() {
+  if(sending||!dirty||conflict||!remoteReady||!activeUser)return;
+  sending=true;
+  const data=structuredClone(db), session=generation;
+  let retry=false;
+  try {
+    const next=await writeSnapshot(sdk,workspace,revision,data);
+    if(session!==generation)return;
+    dirty=JSON.stringify(db)!==JSON.stringify(data);
+    revision=next;retry=dirty;
+    setSync(dirty?'Сохраняем…':'Общий контент-план',dirty?'':'Изменения синхронизированы');
+  } catch(error) {
+    if(session!==generation)return;
+    if(error.code==='workspace-conflict'){
+      conflict=true;setSync('Есть конфликт версий','Скачай свою копию в настройках');
+      notify('Коллега уже сохранил правки. Твои изменения пока в этой вкладке.');
+      if(view==='settings'&&!isEditing())render();
+    } else if(error.code==='workspace-too-large') {
+      setSync('План слишком большой','Скачай копию в настройках');
+    } else if(error.code==='permission-denied') {
+      setSync('База отклонила сохранение','Проверь правила Firebase и скачай копию');
+    } else {
+      retry=true;setSync('Нет связи с базой','Правки доступны в этой вкладке');
+    }
+  } finally {
+    if(session===generation)sending=false;
+  }
+  applyLatest();
+  if(retry&&navigator.onLine) {
+    clearTimeout(syncTimer);syncTimer=setTimeout(push,3500);
+  }
+}
+async function pull() {
+  try {
+    const session=generation;
+    const next=snapshotData(await sdk.getDocFromServer(workspace));
+    if(session!==generation)return;
+    latest=next;dirty=false;conflict=false;applyLatest(true);
+  } catch {notify('Не удалось получить общую версию. Твои правки остались в этой вкладке.');}
+}
+window.addEventListener('online',()=>{if(!remoteReady)listen(activeUser);else push();});
+window.addEventListener('focus',()=>applyLatest());
+window.addEventListener('beforeunload',event=>{if(dirty){event.preventDefault();event.returnValue='';}});
+dialog.addEventListener('close',()=>setTimeout(()=>applyLatest(),0));
+main.addEventListener('focusout',()=>setTimeout(()=>applyLatest(),0));
+
+async function initTeam() {
+  const config=typeof firebaseConfig==='undefined'?null:firebaseConfig;
+  if(location.protocol==='file:'){
+    accessScreen('Командный контент-план','Открой опубликованный адрес GitHub Pages, чтобы войти.');
+    return;
+  }
+  if(!config?.apiKey||!config?.projectId||!config?.authDomain||!config?.appId) {
+    accessScreen('Подключи Firebase','Вставь настройки своего веб-приложения в firebase-config.js и сохрани файл в GitHub.');
+    return;
+  }
+  try {
+    const [appModule,authModule,dataModule]=await Promise.all([
+      import('https://www.gstatic.com/firebasejs/13.4.0/firebase-app.js'),
+      import('https://www.gstatic.com/firebasejs/13.4.0/firebase-auth.js'),
+      import('https://www.gstatic.com/firebasejs/13.4.0/firebase-firestore.js'),
+    ]);
+    const app=appModule.initializeApp(config);
+    sdk={...authModule,...dataModule};
+    auth=sdk.getAuth(app);
+    workspace=sdk.doc(sdk.getFirestore(app),'editorial_workspace','team');
+    sdk.onAuthStateChanged(auth,user=>{
+      generation++;clearTimeout(syncTimer);clearTimeout(reconnect);
+      if(unsubscribe)unsubscribe();
+      activeUser=user;latest=undefined;remoteReady=false;db=blank();revision=0;dirty=false;sending=false;conflict=false;
+      document.querySelector('#brand').textContent='Редакция';accountBar();
+      if(!user)signInScreen();
+      else {
+        accessScreen('Открываем контент-план','Проверяем доступ к рабочему пространству.');
+        listen(user);
+      }
+    },()=>signInScreen('Не удалось проверить вход в Firebase.'));
+  } catch {
+    accessScreen('Не удалось подключить Firebase','Проверь настройки проекта и подключение к интернету.',
+      button('Повторить',initTeam));
+  }
+}
+
+function upsert(list,row) {
+  const pos=list.findIndex(item=>item.id===row.id);
+  if(pos<0) list.push(row);else list[pos]=row;
+}
+function setView(next) {
+  view=next;page=0;filters={query:'',channel:'',format:'',status:'',stage:'',owner:''};render();
+}
+function subheading(title) {
+  const section=el('section',null,'section');section.append(el('h2',title));return section;
+}
+function empty(text) {return el('div',text,'empty');}
+function filterControl(key,options,placeholder,update) {
+  const control=select(options,filters[key],placeholder);
+  control.setAttribute('aria-label',placeholder);
+  control.onchange=()=>{filters[key]=control.value;page=0;update();};
+  return control;
+}
+function searchBox(placeholder,update) {
+  const control=input(filters.query);control.type='search';control.placeholder=placeholder;control.setAttribute('aria-label',placeholder);
+  control.oninput=()=>{filters.query=control.value;page=0;update();};
+  return control;
+}
+function matches(search,values) {return !search || norm(values.join(' ')).includes(norm(search));}
+function top(title,description,action) {
+  const row=el('header',null,'top'), text=el('div');text.append(el('h1',title));
+  if(description) text.append(el('p',description,'subtle'));
+  row.append(text);
+  if(action) row.append(action);
+  main.append(row);
+}
+function publicationCard(pub,draggable=false) {
+  const m=materials.get(pub.materialId);
+  const status=!pub.date && pub.status==='planned' ? 'Без даты' : isLate(pub) ? 'Просрочено' : labelStatus(pub.status);
+  const b=button('',()=>publicationEditor(pub),'event '+(isLate(pub)?'late':pub.status));
+  b.append(el('small',[pub.channel,pub.format,status].filter(Boolean).join(' · ')),el('span',m?.title || 'Материал','event-title'));
+  const [tint,accent]=channelColors.get(pub.channel)||TINTS[0];
+  b.style.setProperty('--tint',tint);b.style.setProperty('--accent',accent);
+  if(draggable && pub.status==='planned') {
+    b.draggable=true;b.ondragstart=e=>e.dataTransfer.setData('application/x-editorial-publication',pub.id);
+  }
+  return b;
+}
+function monthShift(by) {
+  const d=new Date(month+'-01T12:00:00Z');d.setUTCMonth(d.getUTCMonth()+by);
+  month=d.toISOString().slice(0,7);render();
+}
+function publicationFilter(p) {
+  const m=materials.get(p.materialId);
+  return (!filters.channel || p.channel===filters.channel) && (!filters.format || p.format===filters.format)
+    && (!filters.status || p.status===filters.status) && matches(filters.query,[m?.title,p.channel,p.format,p.recommendation]);
+}
+function scheduleFilters(update) {
+  const panel=el('div',null,'filters');
+  panel.append(searchBox('Найти публикацию',update),filterControl('channel',channelNames(),'Все площадки',update),
+    filterControl('format',formatNames(),'Все форматы',update),
+    filterControl('status',Object.keys(OUTCOMES).map(key=>[key,labelStatus(key)]),'Все итоги',update));
+  return panel;
+}
+function calendar() {
+  top('Календарь','График выходов, редакционные нормы и свободные материалы.',button('+ Публикация',()=>publicationEditor(),'primary'));
+  const controls=el('div',null,'controls'), bar=el('div',null,'toolbar'), content=el('div');
+  const monthName=new Intl.DateTimeFormat('ru',{month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(month+'-01'));
+  controls.append(el('h2',monthName),button('‹',()=>monthShift(-1),'icon','Предыдущий месяц'),
+    button('›',()=>monthShift(1),'icon','Следующий месяц'),button('Сегодня',()=>{month=TODAY().slice(0,7);render()}));
+  const mode=select([['month','Месяц'],['list','График по датам'],['weekly','График по площадкам']],calendarMode);mode.setAttribute('aria-label','Представление календаря');
+  mode.onchange=()=>{calendarMode=mode.value;draw()};controls.append(mode);
+  bar.append(controls,scheduleFilters(draw));main.append(bar);
+  const first=month+'-01', now=TODAY(), monthRows=db.publications.filter(p=>eventDate(p)?.startsWith(month));
+  const stats=el('div',null,'metrics');
+  const metrics=[['Запланировано',monthRows.filter(p=>p.status==='planned').length],['Опубликовано',monthRows.filter(p=>p.status==='live').length],['Просрочено',monthRows.filter(p=>isLate(p)).length]];
+  for(const [title,count] of metrics){
+    const item=el('div',null,'metric'+(title==='Просрочено'&&count?' warn':''));
+    item.append(el('span',title),el('strong',count));stats.append(item);
+  }
+  main.append(stats,content);
+  function draw() {
+    content.replaceChildren();
+    const visible=db.publications.filter(publicationFilter);
+    const rules=db.settings.rules.filter(r=>(!filters.channel || r.channel===filters.channel) && (!filters.format || !r.format || r.format===filters.format));
+    const monthly=el('div',null,'hints');
+    for(const rule of rules.filter(r=>r.period==='month')){
+      const count=shortage(db.publications,rule,first,db.settings.countPlanned);
+      if(count) monthly.append(ruleButton(rule,month===now.slice(0,7)?now:first,count,true));
+    }
+    if(calendarMode==='weekly') {content.append(weeklySchedule());return;}
+    if(monthly.childElementCount) content.append(monthly);
+    if(calendarMode==='list') {
+      const list=el('div',null,'panel list');
+      const rows=visible.filter(p=>eventDate(p)?.startsWith(month)).sort((a,b)=>eventDate(a).localeCompare(eventDate(b)));
+      for(const pub of rows) list.append(line(formatDate(eventDate(pub)),pub.channel,publicationCard(pub)));
+      if(!rows.length) list.append(empty('В этом месяце нет публикаций по выбранным фильтрам.'));
+      content.append(list);return;
+    }
+    const grid=el('div',null,'calendar'), scroll=el('div',null,'cal-scroll');
+    scroll.setAttribute('aria-label','Календарь, горизонтальная прокрутка');
+    for(const day of DAYS) grid.append(el('div',day.slice(0,2),'weekday'));
+    const offset=weekday(first)-1, last=new Date(Number(month.slice(0,4)),Number(month.slice(5)),0).getDate();
+    const cells=Math.ceil((offset+last)/7)*7;
+    const events=new Map();
+    for(const pub of visible) {
+      const date=eventDate(pub);
+      if(!date) continue;
+      if(!events.has(date)) events.set(date,[]);
+      events.get(date).push(pub);
+    }
+    const deadlines=new Map();
+    if(db.settings.calendarDeadlines && !filters.status) for(const m of db.materials) {
+      if(!m.deadline || (filters.channel&&!m.channels.includes(filters.channel)) || (filters.format&&!m.formats.includes(filters.format)) || !matches(filters.query,[m.title])) continue;
+      if(!deadlines.has(m.deadline)) deadlines.set(m.deadline,[]);
+      deadlines.get(m.deadline).push(m);
+    }
+    for(let i=0;i<cells;i++){
+      const date=plus(first,i-offset), current=date.startsWith(month);
+      const day=el('div',null,'day'+(!current?' outside':'')+(date===now?' today':''));
+      const add=button('',()=>publicationEditor({}, {date}),'day-add','Запланировать на '+formatDate(date));
+      add.append(el('span',Number(date.slice(8))),el('span','+'));day.append(add);
+      for(const pub of events.get(date) || []) day.append(publicationCard(pub,true));
+      for(const m of deadlines.get(date) || []) day.append(button('Дедлайн · '+m.title,()=>materialEditor(m),'hint'));
+      if(current && !filters.status) for(const rule of rules.filter(r=>r.period==='day' && Number(r.day)===weekday(date))) {
+        const count=shortage(db.publications,rule,date,db.settings.countPlanned);
+        if(count) day.append(ruleButton(rule,date,count));
+      }
+      const accepts=e=>e.dataTransfer.types.includes('application/x-editorial-publication')||e.dataTransfer.types.includes('application/x-editorial-material');
+      day.ondragover=e=>{if(accepts(e)){e.preventDefault();day.classList.add('drag-over');}};
+      day.ondragleave=e=>{if(!day.contains(e.relatedTarget))day.classList.remove('drag-over');};
+      day.ondrop=e=>{
+        e.preventDefault();day.classList.remove('drag-over');
+        const pub=db.publications.find(p=>p.id===e.dataTransfer.getData('application/x-editorial-publication'));
+        const m=materials.get(e.dataTransfer.getData('application/x-editorial-material'));
+        if(pub && pub.status==='planned' && pub.date!==date) publicationEditor(pub,{date});
+        else if(m) publicationEditor({},{date,materialId:m.id});
+      };
+      grid.append(day);
+    }
+    scroll.append(grid);content.append(scroll);
+    const area=subheading('Банк материалов без даты');
+    const candidates=bank.filter(m=>(!filters.channel||!m.channels.length||m.channels.includes(filters.channel)) && (!filters.format||m.formats.includes(filters.format)) && matches(filters.query,[m.title,m.stage,m.owner]));
+    const cards=el('div',null,'cards');
+    candidates.slice(0,8).forEach(m=>cards.append(bankCard(m)));
+    area.append(candidates.length?cards:empty('Нет свободных материалов по выбранным фильтрам.'));
+    if(candidates.length>8) area.append(button('Открыть банк · '+candidates.length,()=>setView('bank')));
+    content.append(area);
+  }
+  draw();
+}
+function weeklySchedule() {
+  const container=el('div',null,'table-wrap'), table=el('table',null,'weekly'), head=table.createTHead().insertRow();
+  head.append(el('th','Площадка'),...DAYS.map(d=>el('th',d)));
+  const body=table.createTBody();
+  const data=db.settings.channels.filter(c=>(!filters.channel||filters.channel===c.name)&&matches(filters.query,[c.name,c.recommendation,...Object.values(c.schedule||{})]));
+  for(const channel of data) {
+    const row=body.insertRow(), lead=row.insertCell();
+    lead.append(el('strong',channel.name));
+    if(channel.recommendation) lead.append(el('p',channel.recommendation,'subtle'));
+    lead.append(button('Настроить',()=>channelEditor(channel)));
+    for(let day=1;day<=7;day++) {
+      const cell=row.insertCell();
+      const plan=channel.schedule?.[day];
+      if(plan)cell.append(el('p',plan));
+      for(const rule of db.settings.rules.filter(r=>r.period==='day'&&r.day===day&&r.channel===channel.name)) {
+        cell.append(el('small',(rule.format||'Публикация')+' · мин. '+rule.min));
+      }
+    }
+  }
+  if(!data.length)return empty('Добавьте площадки в настройках, чтобы собрать график.');
+  container.append(table);return container;
+}
+function bankCard(m) {
+  const row=el('article',null,'panel card');
+  row.append(el('small',[kindLabel(m.kind),m.formats.join(', ')].filter(Boolean).join(' · ')),el('h3',m.title),
+    el('small',[m.stage,m.owner].filter(Boolean).join(' · ')),button('Открыть',()=>materialEditor(m)),button('Запланировать',()=>publicationEditor({},{materialId:m.id})));
+  row.draggable=true;row.ondragstart=e=>e.dataTransfer.setData('application/x-editorial-material',m.id);
+  return row;
+}
+function bankView() {
+  top('Банк материалов','Активные материалы без даты выхода.',button('+ Материал',()=>materialEditor(),'primary'));
+  const filtersBar=el('div',null,'filters toolbar'), content=el('div',null,'cards');
+  filtersBar.append(searchBox('Найти материал',draw),filterControl('channel',channelNames(),'Все площадки',draw),filterControl('format',formatNames(),'Все форматы',draw));
+  main.append(filtersBar,content);
+  function draw(){
+    const results=bank.filter(m=>(!filters.channel||!m.channels.length||m.channels.includes(filters.channel)) && (!filters.format||m.formats.includes(filters.format)) && matches(filters.query,[m.title,m.description,m.owner,m.stage]));
+    content.replaceChildren(...(results.length?results.map(bankCard):[empty('В банке пока нет подходящих материалов.')]));
+  }
+  draw();
+}
+function ruleButton(rule,date,count,monthly=false) {
+  const title=[rule.channel,rule.format].filter(Boolean).join(' · ');
+  return button('+'+count+' · '+title+(monthly?' / месяц':''),()=>suggest(rule,date),'hint');
+}
+function suggest(rule,date) {
+  const panel=el('div',null,'list');
+  const exact=m=>m.channels.includes(rule.channel);
+  const matchesRule=bank.filter(m=>(!rule.format||m.formats.includes(rule.format)) && (exact(m)||!m.channels.length))
+    .sort((a,b)=>Number(exact(b))-Number(exact(a)));
+  for(const m of matchesRule) panel.append(line(m.title,[m.stage,m.owner,m.channels.length?'':'Площадка не назначена'].filter(Boolean).join(' · '),
+    button('Запланировать',()=>publicationEditor({}, {materialId:m.id,date,channel:rule.channel,format:rule.format||m.formats[0]||''}))));
+  const record=channelRecord(rule.channel);
+  if(record?.recommendation) panel.prepend(el('p',record.recommendation,'subtle history'));
+  if(!matchesRule.length) panel.append(empty('В банке нет материалов для этого слота.'));
+  panel.append(button('+ Новый материал',()=>materialEditor({}, {nextPublication:{date,channel:rule.channel,format:rule.format}}),'primary'));
+  modal(formatDate(date)+' · '+rule.channel,panel);
+}
+function publicationEditor(pub={},preset={}) {
+  const source={...pub,...preset}, m=materials.get(source.materialId);
+  const content=el('div'), form=el('form',null,'grid');
+  const entries=db.materials.map(x=>[x.id,x.title]).sort((a,b)=>a[1].localeCompare(b[1],'ru'));
+  const material=field(form,'materialId','Материал',select(entries,source.materialId,'Выбрать материал'),{wide:true,required:true});
+  const channel=field(form,'channel','Площадка',select(channelNames(),source.channel??m?.channels[0],'Без площадки'));
+  const format=field(form,'format','Формат',select(formatNames(),source.format??m?.formats[0],'Без формата'));
+  textField(form,'date','Плановая дата',source.date,'date');
+  textField(form,'actual','Фактическая дата',source.actual,'date');
+  field(form,'status','Итог',select(Object.keys(OUTCOMES).map(key=>[key,labelStatus(key)]),source.status||'planned'),{required:true});
+  textField(form,'url','Ссылка на публикацию',source.url,'url');
+  const advice=el('div',null,'wide subtle history');
+  const dateInput=form.elements.namedItem('date');
+  function showAdvice(){
+    const c=channelRecord(channel.value), date=dateInput.value;
+    advice.textContent=[date&&c?.schedule?.[weekday(date)],c?.recommendation].filter(Boolean).join('\n\n');
+  }
+  showAdvice();channel.onchange=showAdvice;dateInput.onchange=showAdvice;form.append(advice);
+  material.onchange=()=>{
+    const next=materials.get(material.value);
+    if(next&&!pub.id){channel.value=next.channels[0]||'';format.value=next.formats[0]||'';showAdvice();}
+  };
+  textField(form,'recommendation','Описание и рекомендации к выходу',source.recommendation);
+  textField(form,'body','Версия текста для площадки',source.body);
+  const history=Array.isArray(source.history)?source.history:[];
+  if(history.length) form.append(el('div',history.map(item=>item.date+' — '+item.text).join('\n\n'),'wide history subtle'));
+  textField(form,'note','Добавить комментарий',source.note);
+  const actions=[];
+  if(m) actions.push(button('Открыть материал',()=>materialEditor(m)));
+  if(pub.id) {
+    actions.push(button('Создать выход на другой площадке',()=>publicationEditor({}, {materialId:source.materialId,format:source.format})));
+    actions.push(button('Удалить выход',()=>{if(confirm('Удалить эту публикацию из графика?')){
+      db.publications=db.publications.filter(p=>p.id!==pub.id);changed();dialog.close();notify('Публикация удалена.');
+    }},'danger'));
+  } else {
+    actions.push(button('+ Новый материал',()=>materialEditor({}, {nextPublication:source})));
+  }
+  const urlLink=source.url&&link(source.url,'Открыть опубликованный материал');
+  if(urlLink instanceof HTMLElement) actions.push(urlLink);
+  formActions(form,'Сохранить публикацию',...actions);
+  form.onsubmit=e=>{
+    e.preventDefault();
+    const values=Object.fromEntries(new FormData(form)), note=values.note.trim();
+    delete values.note;
+    const row={...pub,...values,id:pub.id||id(),history:note?[{date:new Intl.DateTimeFormat('ru',{dateStyle:'short',timeStyle:'short',timeZone:'Europe/Minsk'}).format(new Date()),text:note},...history]:history};
+    if(row.status==='live' && !row.actual) row.actual=pub.status==='live' ? (pub.actual||row.date||TODAY()) : TODAY();
+    if(row.status!=='live') row.actual='';
+    upsert(db.publications,row);changed();dialog.close();notify('Публикация сохранена.');
+  };
+  content.append(form);modal(pub.id?'Публикация':'Новая публикация',content);
+}
+function columns(kind,all=false) {
+  const cfg=db.settings.kinds[kind], custom=new Map(cfg.custom.map(c=>[c.key,c]));
+  const sheet=sourceSheet(kind);
+  return unique([...(cfg.sourceOrder??sheet?.order??['title']),...cfg.order,...ORDER[kind],...(prepConfig(kind).enabled?['start','finish']:[]),...custom.keys()]).filter(key=>all||!cfg.hidden.includes(key)).map(key=>({
+    key,label:cfg.labels[key] || sheet?.header[key]?.label || custom.get(key)?.label || BASE_COLUMNS[key],type:custom.get(key)?.type || '',
+    options:custom.get(key)?.options || [],
+  })).filter(c=>c.label);
+}
+function materialEditor(m={},preset={}) {
+  const kind=m.kind||preset.kind||(Object.hasOwn(KIND,view)?view:'social');
+  const form=el('form',null,'grid'), content=el('div');
+  const source={...m,...preset}, cfg=db.settings.kinds[kind];
+  const spec=key=>dropdownSpec(kind,source,{key});
+  const prepOutputs=new Map();
+  textField(form,'title',cfg.labels.title||BASE_COLUMNS.title,source.title,'text',true).parentElement.classList.add('wide');
+  if(!m.id) {
+    const changeKind=field(form,'kind','Таблица производства',select(Object.keys(KIND).map(k=>[k,kindLabel(k)]),kind),{required:true});
+    changeKind.onchange=()=>{
+      const values=Object.fromEntries(new FormData(form));delete values.kind;delete values.formats;delete values.channels;
+      materialEditor(m,{...preset,...values,kind:changeKind.value});
+    };
+  }
+  field(form,'topicId','Тема',select(db.topics.map(t=>[t.id,t.title]),source.topicId,'Разовый материал'));
+  multi(form,'formats','Форматы',spec('format')?.choices||[],source.formats || (preset.nextPublication?.format?[preset.nextPublication.format]:[]));
+  multi(form,'channels','Площадки',spec('channels')?.choices||[],source.channels || (preset.nextPublication?.channel?[preset.nextPublication.channel]:[]));
+  for(const col of columns(kind,true)){
+    if(['title','format','channels','next','result'].includes(col.key)) continue;
+    const list=dropdownSpec(kind,source,col);
+    if(list?.multi)multi(form,col.key,col.label,list.choices,splitChoices(source[col.key]));
+    else if(list)field(form,col.key,col.label,select(list.choices,source[col.key],'Не указано'));
+    else if(['start','finish'].includes(col.key)&&prepConfig(kind).enabled){
+      const value=el('output',formatDate(prepDate(source,col.key))||'Рассчитается по дедлайну','subtle');
+      const wrap=el('label',col.label+' · авто','label');wrap.append(value);form.append(wrap);prepOutputs.set(col.key,value);
+    }
+    else textField(form,col.key,col.label,source[col.key],['deadline','start','finish'].includes(col.key)?'date':col.type||'text');
+  }
+  form.addEventListener('input',event=>{
+    if(!prepOutputs.size||!['deadline','formats'].includes(event.target.name))return;
+    const fields=new FormData(form), formats=fields.getAll('formats');
+    const next={...source,kind,formats,deadline:fields.get('deadline')??'',
+      formatTouched:source.formatTouched||formats.join(', ')!==joined(m,'format')};
+    for(const [key,output] of prepOutputs)output.textContent=formatDate(prepDate(next,key))||'Нет даты';
+  });
+  if(m.sourceRow) form.append(link(m.sourceRow,'Открыть исходную строку в Google Таблице'));
+  if(m.source) form.append(link(m.source,'Открыть исходник'));
+  if(m.publishedUrl) form.append(link(m.publishedUrl,'Открыть на сайте'));
+  const controls=[];
+  if(m.id) controls.push(button('Удалить материал',()=>{
+    if(!confirm('Удалить материал вместе со всеми его публикациями?'))return;
+    db.materials=db.materials.filter(x=>x.id!==m.id);
+    db.publications=db.publications.filter(x=>x.materialId!==m.id);
+    changed();dialog.close();notify('Материал удалён.');
+  },'danger'));
+  formActions(form,'Сохранить материал',...controls);
+  form.onsubmit=e=>{
+    e.preventDefault();
+    const formData=new FormData(form), values=Object.fromEntries(formData);
+    const title=values.title.trim();
+    if(!title){notify('Введите название материала.');return;}
+    const next={...m,...values,title,id:m.id||id(),kind,formats:formData.getAll('formats'),channels:formData.getAll('channels')};
+    if(next.formats.join(', ')!==joined(m,'format'))next.formatTouched=true;
+    if(spec('tags'))next.tags=formData.getAll('tags').join(', ');
+    upsert(db.materials,next);changed();dialog.close();notify('Материал сохранён.');
+    if(preset.nextPublication) publicationEditor({}, {...preset.nextPublication,materialId:next.id});
+  };
+  content.append(form);
+  if(m.id) {
+    const area=el('div',null,'panel list');
+    area.append(el('h3','Публикации материала'));
+    for(const pub of byMaterial.get(m.id)||[]) area.append(line(
+      [pub.channel,pub.format].filter(Boolean).join(' · ')||'Без площадки',
+      [formatDate(eventDate(pub)),labelStatus(pub.status)].filter(Boolean).join(' · '),
+      button('Редактировать',()=>publicationEditor(pub))));
+    area.append(button('+ Публикация',()=>publicationEditor({}, {materialId:m.id})));
+    if(m.topicId && topics.has(m.topicId)) area.append(button('Открыть тему',()=>topicEditor(topics.get(m.topicId))));
+    content.append(area);
+  }
+  modal(m.id?'Материал':'Новый материал',content);
+}
+function topicEditor(topic={}) {
+  const content=el('div'), form=el('form',null,'grid');
+  textField(form,'title','Название темы',topic.title,'text',true).parentElement.classList.add('wide');
+  textField(form,'description','Описание темы',topic.description);
+  const remove=button('Удалить тему',()=>{
+    if(!confirm('Удалить тему? Связанные материалы останутся в своих таблицах.'))return;
+    db.topics=db.topics.filter(t=>t.id!==topic.id);
+    db.materials.forEach(m=>{if(m.topicId===topic.id)m.topicId='';});
+    changed();dialog.close();notify('Тема удалена.');
+  },'danger');
+  formActions(form,'Сохранить тему',...(topic.id?[remove]:[]));
+  form.onsubmit=e=>{
+    e.preventDefault();
+    const values=Object.fromEntries(new FormData(form));
+    if(!values.title.trim())return;
+    upsert(db.topics,{...values,title:values.title.trim(),id:topic.id||id()});changed();dialog.close();notify('Тема сохранена.');
+  };
+  content.append(form);
+  if(topic.id) {
+    const list=el('div',null,'panel list');
+    list.append(el('h3','Связанные материалы'));
+    for(const m of db.materials.filter(m=>m.topicId===topic.id)) list.append(line(m.title,kindLabel(m.kind),button('Открыть',()=>materialEditor(m))));
+    list.append(button('+ Материал',()=>materialEditor({}, {topicId:topic.id})));
+    content.append(list);
+  }
+  modal(topic.id?'Тема':'Новая тема',content);
+}
+function topicsView() {
+  top('Темы','Одна идея может объединять статью, кейс и материалы для соцсетей.',button('+ Тема',()=>topicEditor(),'primary'));
+  const bar=el('div',null,'filters toolbar'), area=el('div',null,'cards');
+  bar.append(searchBox('Найти тему',draw));main.append(bar,area);
+  function draw(){
+    area.replaceChildren();
+    const results=db.topics.filter(t=>matches(filters.query,[t.title,t.description]));
+    for(const t of results) {
+      const row=el('article',null,'panel card'), count=db.materials.filter(m=>m.topicId===t.id).length;
+      row.append(el('h3',t.title),el('small','Связанных материалов: '+count));
+      if(t.description) row.append(el('p',t.description,'subtle'));
+      row.append(button('Открыть тему',()=>topicEditor(t)));area.append(row);
+    }
+    if(!results.length) area.append(empty('Создайте тему, когда нескольким материалам нужна общая карточка.'));
+  }
+  draw();
+}
+function parseTSV(text) {
+  const rows=[[]];
+  let cell='',quoted=false;
+  for(let i=0;i<text.length;i++) {
+    const c=text[i], next=text[i+1];
+    if(quoted) {
+      if(c==='"' && next==='"'){cell+='"';i++;}
+      else if(c==='"') quoted=false;
+      else cell+=c;
+    } else if(c==='"' && !cell) quoted=true;
+    else if(c==='\t'){rows.at(-1).push(cell);cell='';}
+    else if(c==='\n' || c==='\r') {
+      if(c==='\r' && next==='\n') i++;
+      rows.at(-1).push(cell);cell='';rows.push([]);
+    } else cell+=c;
+  }
+  if(cell || rows.at(-1).length) rows.at(-1).push(cell);else rows.pop();
+  return rows;
+}
+const joined=(m,key)=>key==='format'?m?.formats?.join(', ')||'':key==='channels'?m?.channels?.join(', ')||'':m?.[key]||'';
+const writeCell=(m,key,raw,type)=>{
+  if(key==='title'){if(raw.trim())m.title=raw.trim();}
+  else if(key==='format' || key==='channels') {
+    const values=splitChoices(raw);
+    if(key==='format'&&joined(m,key)!==values.join(', '))m.formatTouched=true;
+    m[key==='format'?'formats':'channels']=values;
+  }
+  else if(['deadline','start','finish'].includes(key)||type==='date')m[key]=parseDate(raw);
+  else m[key]=raw.trim();
+};
+function columnSettings(kind) {
+  const cfg=db.settings.kinds[kind], content=el('div',null,'list');
+  const cols=columns(kind,true);
+  for(const [i,col] of cols.entries()){
+    const controls=el('div',null,'actions');
+    const hide=button(cfg.hidden.includes(col.key)?'Показать':'Скрыть',()=>{
+      cfg.hidden=cfg.hidden.includes(col.key)?cfg.hidden.filter(key=>key!==col.key):[...cfg.hidden,col.key];changed();columnSettings(kind);
+    });
+    hide.disabled=col.key==='title';
+    const up=button('↑',()=>{
+      const keys=cols.map(c=>c.key);
+      [keys[i-1],keys[i]]=[keys[i],keys[i-1]];
+      if(sourceSheet(kind))cfg.sourceOrder=keys;else cfg.order=keys;
+      changed();columnSettings(kind);
+    },'icon','Поднять столбец '+col.label);
+    up.disabled=sourceSheet(kind)?i===0:i<2;
+    controls.append(up,hide,button('Изменить',()=>columnEditor(kind,col)));
+    content.append(line(col.label,cfg.hidden.includes(col.key)?'Скрыт':'',controls));
+  }
+  content.append(button('+ Столбец',()=>columnEditor(kind),'primary'));
+  modal('Столбцы · '+kindLabel(kind),content);
+}
+function columnEditor(kind,col={}) {
+  const cfg=db.settings.kinds[kind], custom=cfg.custom.find(c=>c.key===col.key);
+  const form=el('form',null,'grid');
+  textField(form,'label','Название',col.label,'text',true);
+  if(custom || !col.key) {
+    field(form,'type','Тип поля',select([['text','Текст'],['textarea','Длинный текст'],['date','Дата'],['select','Список']],col.type||'text'));
+    textField(form,'options','Варианты списка, каждый с новой строки',col.options?.join('\n'),'textarea');
+  }
+  formActions(form,'Сохранить',button('Назад',()=>columnSettings(kind)));
+  form.onsubmit=e=>{
+    e.preventDefault();
+    const values=Object.fromEntries(new FormData(form)), label=values.label.trim();
+    if(!label)return;
+    if(col.key&&!custom) cfg.labels[col.key]=label;
+    else {
+      const key=col.key||'field_'+id();
+      const definition={key,label,type:values.type,options:unique(values.options.split('\n').map(s=>s.trim()))};
+      if(custom) Object.assign(custom,definition);
+      else {cfg.custom.push(definition);cfg.order.push(key);}
+    }
+    changed();columnSettings(kind);
+  };
+  modal('Столбец',form);
+}
+function listText(value) {return unique(String(value||'').split('\n').map(value=>value.trim()));}
+function namesSettings(key,label,old='') {
+  const form=el('form',null,'grid');
+  textField(form,'name','Название',old,'text',true);
+  const remove=button('Убрать из справочника',()=>{
+    if(!confirm('Убрать значение из справочника? Карточки и нормы с этим значением сохранятся.'))return;
+    db.settings[key]=db.settings[key].filter(value=>value!==old);changed();dialog.close();
+  },'danger');
+  formActions(form,'Сохранить',...(old?[remove]:[]));
+  form.onsubmit=e=>{
+    e.preventDefault();
+    const value=String(new FormData(form).get('name')).trim();
+    if(!value)return;
+    db.settings[key]=unique([...db.settings[key].filter(v=>v!==old),value]);
+    if(old && old!==value){
+      if(key==='owners') db.materials.forEach(m=>{if(m.owner===old)m.owner=value;});
+      else {
+        db.materials.forEach(m=>{m.formats=unique(m.formats.map(f=>f===old?value:f));});
+        [...db.publications,...db.settings.rules].forEach(r=>{if(r.format===old)r.format=value;});
+      }
+    }
+    changed();dialog.close();
+  };
+  modal(label,form);
+}
+function channelEditor(record={}) {
+  const form=el('form',null,'grid');
+  textField(form,'name','Название площадки',record.name,'text',true);
+  textField(form,'recommendation','Правила и рекомендации для публикаций',record.recommendation);
+  for(const [i,day] of DAYS.entries()) textField(form,'day'+(i+1),day,record.schedule?.[i+1],'textarea');
+  const remove=button('Убрать из справочника',()=>{
+    if(!confirm('Убрать площадку из справочника? Карточки и нормы сохранятся.'))return;
+    db.settings.channels=db.settings.channels.filter(c=>c.name!==record.name);changed();dialog.close();
+  },'danger');
+  formActions(form,'Сохранить',...(record.name?[remove]:[]));
+  form.onsubmit=e=>{
+    e.preventDefault();
+    const v=Object.fromEntries(new FormData(form)), name=v.name.trim();
+    if(!name)return;
+    if(name!==record.name && db.settings.channels.some(c=>norm(c.name)===norm(name))) {notify('Такая площадка уже есть.');return;}
+    const schedule=Object.fromEntries(DAYS.map((_,i)=>[i+1,v['day'+(i+1)].trim()]));
+    const next={name,recommendation:v.recommendation.trim(),schedule};
+    db.settings.channels=db.settings.channels.map(c=>c.name===record.name?next:c);
+    if(!db.settings.channels.some(c=>c.name===name)) db.settings.channels.push(next);
+    if(record.name && record.name!==name){
+      db.materials.forEach(m=>{m.channels=unique(m.channels.map(c=>c===record.name?name:c));});
+      [...db.publications,...db.settings.rules].forEach(r=>{if(r.channel===record.name)r.channel=name;});
+    }
+    changed();dialog.close();
+  };
+  modal('Площадка и график',form);
+}
+function ruleEditor(rule={}) {
+  const form=el('form',null,'grid');
+  field(form,'channel','Площадка',select(channelNames(),rule.channel,'Выбрать площадку'),{required:true});
+  field(form,'format','Формат',select(formatNames(),rule.format,'Любой формат'));
+  field(form,'slot','Период',select([['month','Месяц'],...DAYS.map((day,i)=>[String(i+1),day])],rule.period==='day'?String(rule.day):'month'));
+  const min=textField(form,'min','Минимум публикаций',rule.min||1,'number',true);min.min='1';min.max='999';
+  const remove=button('Удалить норму',()=>{db.settings.rules=db.settings.rules.filter(r=>r.id!==rule.id);changed();dialog.close()},'danger');
+  formActions(form,'Сохранить',...(rule.id?[remove]:[]));
+  form.onsubmit=e=>{
+    e.preventDefault();
+    const v=Object.fromEntries(new FormData(form)), period=v.slot==='month'?'month':'day', day=Number(v.slot)||0;
+    upsert(db.settings.rules,{id:rule.id||id(),channel:v.channel,format:v.format,period,day,min:Number(v.min)});
+    changed();dialog.close();
+  };
+  modal('Норма публикаций',form);
+}
+function kindSettings(kind) {
+  const form=el('form',null,'grid'), cfg=db.settings.kinds[kind];
+  textField(form,'label','Название таблицы',cfg.label,'text',true);
+  textField(form,'stages','Этапы, каждый с новой строки',cfg.stages.join('\n'),'textarea');
+  textField(form,'excluded','Этапы, которые скрываются из банка',cfg.excluded.join('\n'),'textarea');
+  formActions(form,'Сохранить',button('Столбцы',()=>columnSettings(kind)));
+  form.onsubmit=e=>{
+    e.preventDefault();
+    const v=Object.fromEntries(new FormData(form));
+    if(!v.label.trim())return;
+    Object.assign(cfg,{label:v.label.trim(),stages:listText(v.stages),excluded:listText(v.excluded)});
+    changed();dialog.close();
+  };
+  modal(kindLabel(kind),form);
+}
+function settings() {
+  top('Настройки','Справочники, нормы, колонки и резервные копии рабочего пространства.');
+  const grid=el('div',null,'settings');main.append(grid);
+  const panel=title=>{const body=el('section',null,'panel list');body.append(el('h2',title));grid.append(body);return body;};
+  const general=panel('Рабочее пространство'), form=el('form',null,'list');
+  textField(form,'title','Название рабочего пространства',db.settings.title,'text',true);
+  field(form,'quota','Норму закрывают',select([['planned','Запланированные и опубликованные'],['live','Только опубликованные']],db.settings.countPlanned?'planned':'live'));
+  field(form,'deadlines','Показывать дедлайны в календаре',select([['no','Нет'],['yes','Да']],db.settings.calendarDeadlines?'yes':'no'));
+  for(const key of Object.keys(OUTCOMES)) textField(form,'outcome-'+key,OUTCOMES[key],db.settings.outcomeLabels?.[key]||OUTCOMES[key],'text',true);
+  formActions(form,'Сохранить настройки');
+  form.onsubmit=e=>{
+    e.preventDefault();
+    const v=Object.fromEntries(new FormData(form));
+    Object.assign(db.settings,{title:v.title.trim()||'Редакция',countPlanned:v.quota==='planned',calendarDeadlines:v.deadlines==='yes',
+      outcomeLabels:Object.fromEntries(Object.keys(OUTCOMES).map(k=>[k,v['outcome-'+k].trim()||OUTCOMES[k]]))});changed();notify('Настройки сохранены.');
+  };
+  general.append(form);
+
+  const channels=panel('Площадки и рекомендации');
+  for(const channel of db.settings.channels) channels.append(line(channel.name,'',button('Изменить',()=>channelEditor(channel))));
+  channels.append(button('+ Площадка',()=>channelEditor()));
+  const rules=panel('Нормы публикаций');
+  for(const rule of db.settings.rules) rules.append(line(rule.channel,
+    [rule.format||'Любой формат',rule.period==='month'?'Месяц':DAYS[rule.day-1],'Минимум '+rule.min].join(' · '),
+    button('Изменить',()=>ruleEditor(rule))));
+  rules.append(button('+ Норма',()=>ruleEditor()));
+  const prep=panel('Авторасчёт подготовки');
+  for(const kind of Object.keys(KIND)){
+    prep.append(line(kindLabel(kind),prepConfig(kind).enabled?'По рабочим дням от дедлайна':'Выключено',
+      button('Настроить сроки',()=>prepSettings(kind))));
+  }
+  const production=panel('Таблицы производства');
+  for(const k of Object.keys(KIND)) production.append(line(kindLabel(k),'',button('Настроить',()=>kindSettings(k))));
+  for(const [key,labels] of Object.entries({formats:['Форматы','Формат'],owners:['Ответственные','Ответственный']})) {
+    const box=panel(labels[0]);
+    for(const name of db.settings[key]) box.append(line(name,'',button('Изменить',()=>namesSettings(key,labels[1],name))));
+    box.append(button('+ '+labels[1],()=>namesSettings(key,labels[1])));
+  }
+  const designPanel=panel('Оформление Google Таблиц');
+  const designFile=el('input');designFile.type='file';designFile.accept='.json,application/json';designFile.hidden=true;
+  designPanel.append(el('p','Применяет оформление и списки к существующим строкам. Содержимое плана сохраняется.','subtle'),
+    designFile,button('Загрузить оформление',()=>designFile.click()));
+  designFile.onchange=async()=>{
+    try{
+      const file=designFile.files[0];if(!file)return;
+      if(file.size>250000)throw Error('Файл оформления слишком большой.');
+      installSourceDesign(JSON.parse(await file.text()));changed();notify('Оформление и выпадающие списки применены.');
+    }catch(error){notify(error.message);}finally{designFile.value='';}
+  };
+  const storage=panel('Резервная копия');
+  storage.append(button('Скачать JSON',()=>{
+    const url=URL.createObjectURL(new Blob([JSON.stringify(db,null,2)],{type:'application/json'}));
+    const a=el('a');a.href=url;a.download='content-plan-'+TODAY()+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  }));
+  const upload=el('input');upload.type='file';upload.accept='.json,application/json';upload.hidden=true;
+  storage.append(upload,button('Загрузить JSON',()=>upload.click()));
+  upload.onchange=async()=>{
+    try{
+      const file=upload.files[0];if(!file)return;
+      if(file.size>1_900_000) throw new Error('Файл слишком большой.');
+      const next=validate(JSON.parse(await file.text()));
+      if(new TextEncoder().encode(JSON.stringify(next)).byteLength>maxSize)throw new Error('Данные из файла превышают лимит облачной версии 850 КБ.');
+      if((db.materials.length||db.publications.length||db.topics.length)&&!confirm('Заменить всё рабочее пространство данными из файла?'))return;
+      if(db.settings.sourceDesign&&!next.settings.sourceDesign)next.settings.sourceDesign=db.settings.sourceDesign;
+      db=next;changed();notify('Резервная копия загружена.');
+    }catch(error){notify(error.message);}finally{upload.value='';}
+  };
+  if(conflict) storage.append(button('Загрузить общую версию',()=>{
+    if(!confirm('Заменить локальные правки общей версией? Скачайте копию, чтобы сохранить правки.'))return;
+    pull();
+  },'danger'));
+}
+function render() {
+  document.querySelector('#brand').textContent=db.settings.title;
+  const nav=document.querySelector('#nav');
+  nav.replaceChildren();
+  const addNav=(key,title,icon)=>{
+    const b=button('',()=>setView(key),'nav');
+    b.append(el('span',icon,'nav-icon'),el('span',title));
+    b.firstChild.setAttribute('aria-hidden','true');
+    if(view===key)b.setAttribute('aria-current','page');
+    nav.append(b);
+  };
+  addNav('calendar','Календарь','▦');
+  addNav('bank','Банк материалов','▧');
+  addNav('topics','Темы','◇');
+  nav.append(el('p','Производство'));
+  for(const [key,v] of Object.entries(KIND))addNav(key,kindLabel(key),v.icon);
+  nav.append(el('p','Управление'));
+  addNav('settings','Настройки','⚙');
+  main.replaceChildren();
+  if(view==='calendar')calendar();
+  else if(view==='bank')bankView();
+  else if(view==='topics')topicsView();
+  else if(view==='settings')settings();
+  else tableView(view);
+}
+initTeam();
+</script>
+</body>
+</html>
